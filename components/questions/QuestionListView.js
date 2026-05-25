@@ -21,6 +21,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import ChatIcon from '@mui/icons-material/Chat';
 import { useGenerateDataset } from '@/hooks/useGenerateDataset';
 import { toast } from 'sonner';
+import DuplicateBadge from '@/components/DuplicateBadge';
 import { useAtomValue } from 'jotai';
 import { selectedModelInfoAtom } from '@/lib/store';
 
@@ -217,8 +218,10 @@ export default function QuestionListView({
                 />
 
                 <Box sx={{ ml: 1, flex: 1, mr: 2 }}>
-                  <Typography variant="body2">
+                  <Typography variant="body2" component="span">
                     {question.question}
+                  </Typography>
+                  <Box sx={{ display: 'inline-flex', gap: 0.5, ml: 0.5, verticalAlign: 'middle' }}>
                     {question.datasetCount > 0 ? (
                       <Chip
                         label={t('datasets.answerCount', { count: question.datasetCount })}
@@ -228,7 +231,10 @@ export default function QuestionListView({
                         sx={{ fontSize: '0.75rem', maxWidth: 150 }}
                       />
                     ) : null}
-                  </Typography>
+                    {question.clusterId ? (
+                      <DuplicateBadge count={2} />
+                    ) : null}
+                  </Box>
                   <Typography variant="caption" color="text.secondary" sx={{ display: { xs: 'block', sm: 'none' } }}>
                     {question.label || t('datasets.noTag')} • ID: {(question.question || '').substring(0, 8)}
                   </Typography>
