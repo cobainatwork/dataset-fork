@@ -19,7 +19,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:unit": "jest tests/unit",
-    "test:integration": "jest tests/integration",
+    "test:integration": "jest --runInBand tests/integration",
     "electron": "electron .",
     "electron-dev": "concurrently \"pnpm dev\" \"wait-on http://localhost:1717 && electron .\"",
     "electron-pack": "electron-builder --dir",
