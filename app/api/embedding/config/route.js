@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { getConfig, saveConfig } from '@/lib/services/embedding/config';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   const config = await getConfig();
   // Do not expose apiKey to client

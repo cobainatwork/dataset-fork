@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { getEmbeddingService } from '@/lib/services/embedding';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   const svc = await getEmbeddingService();
   const [embeddingOk, vectorOk] = await Promise.all([
