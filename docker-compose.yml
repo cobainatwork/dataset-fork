@@ -2,6 +2,7 @@ services:
   easy-dataset:
     image: easy-dataset:local
     container_name: easy-dataset
+    env_file: .env
     ports:
       - '1717:1717'
     volumes:

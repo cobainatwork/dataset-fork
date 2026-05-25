@@ -57,8 +57,8 @@ RUN apk add --no-cache \
     librsvg \
     pixman
 
-# 复制package.json和.env文件
-COPY package.json .env ./
+# 复制 package.json（.env 改由 docker-compose env_file 在 runtime 注入）
+COPY package.json ./
 
 # 从构建阶段复制精简后的node_modules（只包含生产依赖）
 COPY --from=builder /app/node_modules ./node_modules
