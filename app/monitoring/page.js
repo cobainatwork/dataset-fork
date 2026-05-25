@@ -26,6 +26,7 @@ import StatsCards from './components/StatsCards';
 import Charts from './components/Charts';
 import UsageTable from './components/UsageTable';
 import { useMonitoringData } from './hooks/useMonitoringData';
+import EmbeddingSection from './EmbeddingSection';
 
 export default function MonitoringPage() {
   const theme = useTheme();
@@ -235,6 +236,7 @@ export default function MonitoringPage() {
                 searchTerm={searchTerm}
                 onSearchChange={handleSearchChange}
               />
+              <EmbeddingSection />
             </Stack>
           )}
         </Container>
