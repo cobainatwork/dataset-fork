@@ -11,14 +11,21 @@ export async function GET() {
 export async function PUT(request) {
   const body = await request.json();
   const allowed = [
-    'endpoint', 'apiKey', 'modelName', 'dimension',
-    'hnswM', 'hnswEfConstruction', 'hnswEfSearch',
-    'enabled', 'clusterThreshold', 'divergenceThreshold',
-    'scanAnswerDivergence', 'workerConcurrency', 'embedBatchSize',
+    'endpoint',
+    'apiKey',
+    'modelName',
+    'dimension',
+    'hnswM',
+    'hnswEfConstruction',
+    'hnswEfSearch',
+    'enabled',
+    'clusterThreshold',
+    'divergenceThreshold',
+    'scanAnswerDivergence',
+    'workerConcurrency',
+    'embedBatchSize'
   ];
-  const patch = Object.fromEntries(
-    Object.entries(body).filter(([k]) => allowed.includes(k))
-  );
+  const patch = Object.fromEntries(Object.entries(body).filter(([k]) => allowed.includes(k)));
 
   // Dimension changes require manual migration; reject for safety
   if ('dimension' in patch) {
@@ -27,7 +34,7 @@ export async function PUT(request) {
       return NextResponse.json(
         {
           error: 'DIMENSION_CHANGE_REQUIRES_MIGRATION',
-          message: 'Dimension changes require manual ALTER TABLE migration. See spec §5.1.2.',
+          message: 'Dimension changes require manual ALTER TABLE migration. See spec §5.1.2.'
         },
         { status: 400 }
       );

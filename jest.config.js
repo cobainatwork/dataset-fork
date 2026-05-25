@@ -4,11 +4,8 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testMatch: ['<rootDir>/tests/**/*.test.js'],
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/$1',
+    '^@/(.*)$': '<rootDir>/$1'
   },
   testPathIgnorePatterns: ['/node_modules/', '/.next/', '/dist/'],
-  collectCoverageFrom: [
-    'lib/services/embedding/**/*.js',
-    '!**/node_modules/**',
-  ],
+  collectCoverageFrom: ['lib/services/embedding/**/*.js', '!**/node_modules/**']
 };

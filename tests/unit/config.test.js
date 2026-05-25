@@ -2,9 +2,9 @@ jest.mock('@/lib/db/index', () => ({
   db: {
     embeddingConfig: {
       upsert: jest.fn(),
-      findUnique: jest.fn(),
-    },
-  },
+      findUnique: jest.fn()
+    }
+  }
 }));
 
 const { getConfig, saveConfig, DEFAULTS } = require('@/lib/services/embedding/config');
@@ -29,7 +29,7 @@ describe('embedding config', () => {
       dimension: 1024,
       clusterThreshold: 0.9,
       enabled: true,
-      endpoint: 'http://example.test/v1',
+      endpoint: 'http://example.test/v1'
     });
     const cfg = await getConfig();
     expect(cfg.modelName).toBe('bge-m3-q8_0');
@@ -46,9 +46,9 @@ describe('embedding config', () => {
         id: 'default',
         modelName: 'test-model',
         enabled: true,
-        dimension: 1024,
+        dimension: 1024
       }),
-      update: { modelName: 'test-model', enabled: true },
+      update: { modelName: 'test-model', enabled: true }
     });
   });
 });

@@ -1,7 +1,7 @@
-const { NextResponse } = require('next/server');
-const { db } = require('@/lib/db/index');
+import { NextResponse } from 'next/server';
+import { db } from '@/lib/db/index';
 
-async function POST(request) {
+export async function POST(request) {
   let body = {};
   try {
     body = await request.json();
@@ -34,5 +34,3 @@ async function POST(request) {
   });
   return NextResponse.json({ ok: true, taskId: task.id });
 }
-
-module.exports = { POST };
