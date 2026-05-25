@@ -232,7 +232,7 @@ export default function QuestionListView({
                       />
                     ) : null}
                     {question.clusterId ? (
-                      <DuplicateBadge count={2} />
+                      <DuplicateBadge clusterId={question.clusterId} />
                     ) : null}
                   </Box>
                   <Typography variant="caption" color="text.secondary" sx={{ display: { xs: 'block', sm: 'none' } }}>

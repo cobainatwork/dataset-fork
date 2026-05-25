@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server';
-import { getConfig, saveConfig } from '@/lib/services/embedding/config';
+import { getConfig, saveConfig, DEFAULTS } from '@/lib/services/embedding/config';
 
 export const dynamic = 'force-dynamic';
+
+const WRITABLE_FIELDS = Object.keys(DEFAULTS).filter(k => k !== 'id');
 
 export async function GET() {
   const config = await getConfig();
@@ -12,22 +14,7 @@ export async function GET() {
 
 export async function PUT(request) {
   const body = await request.json();
-  const allowed = [
-    'endpoint',
-    'apiKey',
-    'modelName',
-    'dimension',
-    'hnswM',
-    'hnswEfConstruction',
-    'hnswEfSearch',
-    'enabled',
-    'clusterThreshold',
-    'divergenceThreshold',
-    'scanAnswerDivergence',
-    'workerConcurrency',
-    'embedBatchSize'
-  ];
-  const patch = Object.fromEntries(Object.entries(body).filter(([k]) => allowed.includes(k)));
+  const patch = Object.fromEntries(Object.entries(body).filter(([k]) => WRITABLE_FIELDS.includes(k)));
 
   // Dimension changes require manual migration; reject for safety
   if ('dimension' in patch) {

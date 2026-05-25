@@ -1,16 +1,24 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { Box, Card, CardContent, Typography, Grid, CircularProgress, Divider } from '@mui/material';
+import { Box, Card, CardContent, Typography, Grid, CircularProgress, Divider, Alert } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 export default function EmbeddingSection() {
   const { t } = useTranslation();
   const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('/api/embedding/stats').then((r) => r.json()).then(setData);
+    fetch('/api/embedding/stats')
+      .then(r => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
+      .then(setData)
+      .catch(e => setError(e.message || String(e)));
   }, []);
 
+  if (error) return <Alert severity="error" sx={{ mt: 4 }}>Embedding stats unavailable: {error}</Alert>;
   if (!data) return <CircularProgress />;
 
   const cards = [
