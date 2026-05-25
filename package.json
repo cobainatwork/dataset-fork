@@ -16,7 +16,7 @@
     "build": "prisma db push && next build",
     "start": "next start -p 1717",
     "lint": "next lint",
-    "test": "jest",
+    "test": "pnpm test:unit && pnpm test:integration",
     "test:watch": "jest --watch",
     "test:unit": "jest tests/unit",
     "test:integration": "jest --runInBand tests/integration",
