@@ -31,14 +31,15 @@ RUN pnpm install
 COPY . .
 
 # 根据目标平台设置Prisma二进制目标并构建应用
+# 注意：build 阶段不可连接数据库，故用 prisma generate（生成 client）替代 prisma db push
 RUN if [ "$TARGETPLATFORM" = "linux/arm64" ]; then \
         echo "Configuring for ARM64 platform"; \
         sed -i 's/binaryTargets = \[.*\]/binaryTargets = \["linux-musl-arm64-openssl-3.0.x"\]/' prisma/schema.prisma; \
-        PRISMA_CLI_BINARY_TARGETS="linux-musl-arm64-openssl-3.0.x" pnpm build; \
+        PRISMA_CLI_BINARY_TARGETS="linux-musl-arm64-openssl-3.0.x" pnpm exec prisma generate && pnpm exec next build; \
     else \
         echo "Configuring for AMD64 platform (default)"; \
         sed -i 's/binaryTargets = \[.*\]/binaryTargets = \["linux-musl-openssl-3.0.x"\]/' prisma/schema.prisma; \
-        PRISMA_CLI_BINARY_TARGETS="linux-musl-openssl-3.0.x" pnpm build; \
+        PRISMA_CLI_BINARY_TARGETS="linux-musl-openssl-3.0.x" pnpm exec prisma generate && pnpm exec next build; \
     fi
 
 # 构建完成后移除开发依赖，只保留生产依赖
@@ -68,8 +69,8 @@ COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/electron ./electron
 
-# 复制 prisma 到模板目录（用于自动初始化）
-COPY --from=builder /app/prisma /app/prisma-template
+# 复制 prisma 目录到 image 內，含 schema 與 migrations
+COPY --from=builder /app/prisma /app/prisma
 
 # 复制并设置 entrypoint 脚本（sed 去除 Windows 换行符 \r，防止 CRLF 导致 "no such file or directory"）
 COPY docker-entrypoint.sh /usr/local/bin/
