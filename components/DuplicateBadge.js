@@ -6,9 +6,9 @@ export default function DuplicateBadge({ count, divergent }) {
   const { t } = useTranslation();
   if (!count || count < 2) return null;
   return (
-    <Tooltip title={t('duplicates.badge.tooltip', { count })}>
+    <Tooltip title={t('duplicates.badgeTooltip', { count })}>
       <Chip
-        label={`${t('duplicates.badge.label')} ×${count}${divergent ? ' ⚠' : ''}`}
+        label={`${t('duplicates.badgeLabel')} ×${count}${divergent ? ' ⚠' : ''}`}
         color={divergent ? 'warning' : 'primary'}
         size="small"
       />

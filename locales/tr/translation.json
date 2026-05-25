@@ -1928,5 +1928,45 @@
     "detailResults": "Detaylı Sonuçlar",
     "left": "Sol",
     "right": "Sağ"
+  },
+  "duplicates": {
+    "title": "Yinelenenler",
+    "empty": "Henüz yinelenen yok",
+    "divergent": "Cevap farklı",
+    "badge": "Yinelenen ×{{count}}",
+    "badgeLabel": "Yinelenen",
+    "badgeTooltip": "{{count}} yinelenen soru",
+    "filter": {
+      "projectId": "Proje ID",
+      "minSize": "Min grup boyutu",
+      "onlyDivergent": "Sadece farklı olanları göster"
+    }
+  },
+  "cluster": {
+    "info": {
+      "title": "Grup bilgisi",
+      "members": "{{count}} benzer soru"
+    },
+    "feedback": {
+      "correct": "Doğru olarak işaretle",
+      "incorrect": "Yanlış olarak işaretle",
+      "partial": "Kısmen",
+      "thanks": "Geri bildirim kaydedildi"
+    }
+  },
+  "embedding": {
+    "stats": {
+      "title": "Embedding istatistikleri",
+      "totalEmbedded": "Toplam embedding",
+      "totalClusters": "Toplam grup",
+      "crossProject": "Çapraz proje",
+      "divergent": "Farklı",
+      "latencies": "Gecikme yüzdelikleri"
+    }
+  },
+  "trust": {
+    "title": "Güven panosu",
+    "totalFeedback": "{{count}} geri bildirim kaydedildi",
+    "suggestion": "Önerilen eşik: {{threshold}}"
   }
 }

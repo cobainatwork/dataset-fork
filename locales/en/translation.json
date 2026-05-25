@@ -1919,5 +1919,45 @@
     "detailResults": "Detailed Results",
     "left": "Left",
     "right": "Right"
+  },
+  "duplicates": {
+    "title": "Duplicates",
+    "empty": "No duplicates yet",
+    "divergent": "Answer divergent",
+    "badge": "Duplicate ×{{count}}",
+    "badgeLabel": "Duplicate",
+    "badgeTooltip": "{{count}} duplicate questions",
+    "filter": {
+      "projectId": "Project ID",
+      "minSize": "Min cluster size",
+      "onlyDivergent": "Only show divergent"
+    }
+  },
+  "cluster": {
+    "info": {
+      "title": "Cluster info",
+      "members": "{{count}} similar questions"
+    },
+    "feedback": {
+      "correct": "Mark as correct",
+      "incorrect": "Mark as incorrect",
+      "partial": "Partial",
+      "thanks": "Feedback recorded"
+    }
+  },
+  "embedding": {
+    "stats": {
+      "title": "Embedding stats",
+      "totalEmbedded": "Total embedded",
+      "totalClusters": "Total clusters",
+      "crossProject": "Cross-project",
+      "divergent": "Divergent",
+      "latencies": "Latency percentiles"
+    }
+  },
+  "trust": {
+    "title": "Trust dashboard",
+    "totalFeedback": "{{count}} feedbacks recorded",
+    "suggestion": "Suggested threshold: {{threshold}}"
   }
 }
