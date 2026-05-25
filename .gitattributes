@@ -1,0 +1,54 @@
+# === 預設：自動偵測文字檔，repo 內統一 LF ===
+* text=auto eol=lf
+
+# === Shell scripts：必須 LF（將於 Linux 容器執行）===
+*.sh        text eol=lf
+*.bash      text eol=lf
+
+# === Docker / Compose：LF ===
+Dockerfile          text eol=lf
+Dockerfile.*        text eol=lf
+docker-compose*.yml text eol=lf
+.dockerignore       text eol=lf
+
+# === Windows-only scripts：保留 CRLF ===
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# === 程式碼明確標示為 text（保險）===
+*.js   text
+*.mjs  text
+*.cjs  text
+*.jsx  text
+*.ts   text
+*.tsx  text
+*.json text
+*.css  text
+*.scss text
+*.html text
+*.md   text
+*.yml  text
+*.yaml text
+*.toml text
+*.env.example text
+*.prisma text
+
+# === 二進位檔：不做 normalization、不做 diff ===
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.ico   binary
+*.icns  binary
+*.woff  binary
+*.woff2 binary
+*.ttf   binary
+*.eot   binary
+*.pdf   binary
+*.zip   binary
+*.tar.gz binary
+*.sqlite binary
+
+# === 大型 lock file 不做 diff（提升 git 效能）===
+pnpm-lock.yaml -diff

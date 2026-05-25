@@ -1,0 +1,54 @@
+# === 文件 / 說明檔 / 規格檔 ===
+docs/
+README.md
+README.*.md
+AGENTS.md
+AGENTS.*.md
+ARCHITECTURE.md
+ARCHITECTURE.*.md
+**/specs/
+**/plans/
+*.spec.md
+
+# === AI / AI-IDE 工具設定 ===
+.claude/
+.remember/
+.windsurfrules
+
+# === 套件相依 / 建置產物 ===
+node_modules/
+.next/
+out/
+dist/
+build/
+.turbo/
+.cache/
+
+# === 環境變數 / 密鑰 ===
+.env
+.env.local
+.env.*.local
+.env.development.local
+.env.production.local
+.env.test.local
+
+# === 資料庫 / 本機資料 ===
+prisma/db.sqlite
+prisma/db.sqlite-journal
+prisma/*.sqlite
+prisma/*.sqlite-journal
+local-db/
+
+# === OS / IDE 雜訊 ===
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log
+coverage/
+playwright-report/
+test-results/
+.eslintcache
+
+# === Lock file（專案以 pnpm 為主，排除 npm lock）===
+package-lock.json
