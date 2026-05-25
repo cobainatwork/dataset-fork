@@ -28,7 +28,7 @@ describe('pgvector store (integration)', () => {
   it('upsert is idempotent on same id', async () => {
     await store.upsert('question', [{ id: 'q3', vector: fakeVec(), payload: {} }]);
     await store.upsert('question', [{ id: 'q3', vector: fakeVec(), payload: {} }]);
-    const c = await store.count('question', {});
+    const c = await store.count('question');
     expect(c).toBe(1);
   });
 

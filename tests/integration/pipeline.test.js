@@ -34,20 +34,23 @@ afterEach(async () => {
 
 afterAll(() => prisma.$disconnect());
 
+function buildPipeline() {
+  return createPipeline({
+    embedding: fakeEmbeddingProvider(),
+    vectorStore: createPgvectorStore(prisma),
+    clusterRepo: createPrismaClusterRepository(prisma),
+    db: prisma,
+    config: { clusterThreshold: 0.88, modelName: 'fake' },
+  });
+}
+
 describe('pipeline F1', () => {
   it('creates new cluster for isolated question', async () => {
     await prisma.questions.create({
       data: { id: 'q1', question: 'What is the capital of France?', label: 'geo', projectId: 'p_test', chunkId: 'ch_test' },
     });
 
-    const pipeline = createPipeline({
-      embedding: fakeEmbeddingProvider(),
-      vectorStore: createPgvectorStore(prisma),
-      clusterRepo: createPrismaClusterRepository(prisma),
-      db: prisma,
-      config: { clusterThreshold: 0.88, modelName: 'fake' },
-    });
-
+    const pipeline = buildPipeline();
     await pipeline.processNewQuestion({ id: 'q1', text: 'What is the capital of France?', projectId: 'p_test' });
 
     const q = await prisma.questions.findUnique({ where: { id: 'q1' } });
@@ -55,5 +58,27 @@ describe('pipeline F1', () => {
     expect(q.clusterRole).toBe('primary');
     const c = await prisma.questionCluster.findUnique({ where: { id: q.clusterId } });
     expect(c.size).toBe(1);
+  });
+
+  it('attaches second similar question to first question cluster', async () => {
+    // Same-length texts produce identical fake vectors (cosine sim = 1.0)
+    const text = 'What is the capital of France?';
+    await prisma.questions.create({
+      data: { id: 'q1', question: text, label: 'geo', projectId: 'p_test', chunkId: 'ch_test' },
+    });
+    await prisma.questions.create({
+      data: { id: 'q2', question: text, label: 'geo', projectId: 'p_test', chunkId: 'ch_test' },
+    });
+
+    const pipeline = buildPipeline();
+    await pipeline.processNewQuestion({ id: 'q1', text, projectId: 'p_test' });
+    await pipeline.processNewQuestion({ id: 'q2', text, projectId: 'p_test' });
+
+    const q2 = await prisma.questions.findUnique({ where: { id: 'q2' } });
+    expect(q2.clusterRole).toBe('member');
+    expect(q2.similarityScore).toBeGreaterThanOrEqual(0.88);
+
+    const cluster = await prisma.questionCluster.findUnique({ where: { id: q2.clusterId } });
+    expect(cluster.size).toBe(2);
   });
 });

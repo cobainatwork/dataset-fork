@@ -1,5 +1,6 @@
 const { PrismaClient } = require('@prisma/client');
 const { createPrismaClusterRepository } = require('@/lib/services/embedding/adapters/prisma-cluster');
+const { OptimisticLockError } = require('@/lib/services/embedding/errors');
 
 const prisma = new PrismaClient();
 const repo = createPrismaClusterRepository(prisma);
@@ -49,6 +50,6 @@ describe('prisma cluster repo', () => {
       embeddingModel: 'bge-m3', thresholdAtCreate: 0.88, avgSimilarity: 0,
       hasAnswerDivergence: false, version: 5,
     });
-    await expect(repo.update('c3', { size: 9, version: 0 })).rejects.toThrow();
+    await expect(repo.update('c3', { size: 9, version: 0 })).rejects.toThrow(OptimisticLockError);
   });
 });
