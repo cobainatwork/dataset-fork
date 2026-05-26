@@ -361,7 +361,7 @@ const DistillTreeView = forwardRef(function DistillTreeView(
         questionId,
         ...multiTurnConfig,
         model: selectedModel,
-        language: 'zh-CN'
+        language: 'zh-TW'
       });
 
       if (response.status === 200) {

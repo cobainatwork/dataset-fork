@@ -358,7 +358,7 @@ export default function MobileDrawer({
             <ListItemButton
               component="a"
               href={
-                i18n.language === 'zh-CN' ? 'https://docs.easy-dataset.com/' : 'https://docs.easy-dataset.com/ed/en'
+                i18n.language === 'zh-TW' ? 'https://docs.easy-dataset.com/' : 'https://docs.easy-dataset.com/ed/en'
               }
               target="_blank"
               rel="noopener noreferrer"

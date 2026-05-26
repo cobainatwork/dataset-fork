@@ -23,7 +23,7 @@ export async function POST(request, { params }) {
     // 將原問題和答案合併作為上下文文字
     const text = `Question: ${dataset.question}\nAnswer: ${dataset.answer}`;
 
-    const prompt = await getEvalQuestionPrompt(language || 'zh-CN', questionType, { text, number: count }, projectId);
+    const prompt = await getEvalQuestionPrompt(language || 'zh-TW', questionType, { text, number: count }, projectId);
 
     // 3. 呼叫 LLM
     const client = new LLMClient(model);

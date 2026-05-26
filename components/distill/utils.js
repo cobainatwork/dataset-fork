@@ -43,7 +43,7 @@ export const sortTagsByNumber = tags => {
     }
     // 如果都沒有序號，則按原來的字母序排序
     else {
-      return a.label.localeCompare(b.label, 'zh-CN');
+      return a.label.localeCompare(b.label, 'zh-TW');
     }
   });
 };

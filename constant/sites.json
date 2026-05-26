@@ -1,14 +1,14 @@
 [
   {
     "name": {
-      "zh-CN": "HuggingFace開源資料集",
+      "zh-TW": "HuggingFace開源資料集",
       "en": "HuggingFace Open Datasets",
       "tr": "HuggingFace Açık Veri Setleri"
     },
     "link": "https://huggingface.co/datasets",
     "image": "/imgs/huggingface.png",
     "description": {
-      "zh-CN": "提供了豐富的開源資料集，涵蓋多種領域和語言，支援自然語言處理、計算機視覺等多種任務。",
+      "zh-TW": "提供了豐富的開源資料集，涵蓋多種領域和語言，支援自然語言處理、計算機視覺等多種任務。",
       "en": "Offers a rich collection of open-source datasets covering multiple domains and languages, supporting NLP, computer vision, and more.",
       "tr": "Birden fazla alan ve dili kapsayan, NLP, bilgisayar görüşü ve daha fazlasını destekleyen zengin bir açık kaynak veri seti koleksiyonu sunar."
     },
@@ -16,14 +16,14 @@
   },
   {
     "name": {
-      "zh-CN": "OpenDataLab開源資料集",
+      "zh-TW": "OpenDataLab開源資料集",
       "en": "OpenDataLab Open Datasets",
       "tr": "OpenDataLab Açık Veri Setleri"
     },
     "link": "https://opendatalab.com/",
     "image": "/imgs/opendatalab.png",
     "description": {
-      "zh-CN": "致力於收集和整理高質量的開源資料集，方便研究人員和開發者使用。",
+      "zh-TW": "致力於收集和整理高質量的開源資料集，方便研究人員和開發者使用。",
       "en": "Dedicated to collecting and organizing high-quality open-source datasets for researchers and developers.",
       "tr": "Araştırmacılar ve geliştiriciler için yüksek kaliteli açık kaynak veri setleri toplamaya ve düzenlemeye adanmıştır."
     },
@@ -31,14 +31,14 @@
   },
   {
     "name": {
-      "zh-CN": "谷歌開源資料集",
+      "zh-TW": "谷歌開源資料集",
       "en": "Google Dataset Search",
       "tr": "Google Veri Seti Arama"
     },
     "link": "https://datasetsearch.research.google.com",
     "image": "/imgs/google.png",
     "description": {
-      "zh-CN": "谷歌提供的資料集搜尋工具，可幫助使用者找到來自不同來源的公開資料集。",
+      "zh-TW": "谷歌提供的資料集搜尋工具，可幫助使用者找到來自不同來源的公開資料集。",
       "en": "Google's dataset search tool helping users find public datasets from various sources.",
       "tr": "Kullanıcıların çeşitli kaynaklardan açık veri setleri bulmasına yardımcı olan Google veri seti arama aracı."
     },
@@ -46,14 +46,14 @@
   },
   {
     "name": {
-      "zh-CN": "kaggle開源資料集",
+      "zh-TW": "kaggle開源資料集",
       "en": "Kaggle Open Datasets",
       "tr": "Kaggle Açık Veri Setleri"
     },
     "link": "https://www.kaggle.com/datasets",
     "image": "/imgs/kaggle.png",
     "description": {
-      "zh-CN": "Kaggle平臺上的開源資料集，涉及各種領域和任務，常用於資料競賽和實踐。",
+      "zh-TW": "Kaggle平臺上的開源資料集，涉及各種領域和任務，常用於資料競賽和實踐。",
       "en": "Open datasets on the Kaggle platform, covering various domains and tasks, commonly used for data competitions and practice.",
       "tr": "Kaggle platformundaki açık veri setleri, çeşitli alanları ve görevleri kapsar, veri yarışmaları ve uygulama için yaygın olarak kullanılır."
     },
@@ -61,14 +61,14 @@
   },
   {
     "name": {
-      "zh-CN": "ModelScope開源資料集",
+      "zh-TW": "ModelScope開源資料集",
       "en": "ModelScope Open Datasets",
       "tr": "ModelScope Açık Veri Setleri"
     },
     "link": "https://modelscope.cn/datasets",
     "image": "/imgs/modelscope.png",
     "description": {
-      "zh-CN": "提供了多種開源資料集，支援模型的訓練和評估，涵蓋多個領域。",
+      "zh-TW": "提供了多種開源資料集，支援模型的訓練和評估，涵蓋多個領域。",
       "en": "Provides various open-source datasets supporting model training and evaluation across multiple domains.",
       "tr": "Birden fazla alanda model eğitimi ve değerlendirmesini destekleyen çeşitli açık kaynak veri setleri sunar."
     },
@@ -76,14 +76,14 @@
   },
   {
     "name": {
-      "zh-CN": "LUGE千言開源資料集",
+      "zh-TW": "LUGE千言開源資料集",
       "en": "LUGE Open Datasets",
       "tr": "LUGE Açık Veri Setleri"
     },
     "link": "https://www.luge.ai/",
     "image": "/imgs/lluga.png",
     "description": {
-      "zh-CN": "專注於中文領域的開源資料集，包括自然語言處理、語音識別等方向。",
+      "zh-TW": "專注於中文領域的開源資料集，包括自然語言處理、語音識別等方向。",
       "en": "Focused on Chinese-language open datasets, including NLP, speech recognition, and more.",
       "tr": "NLP, konuşma tanıma ve daha fazlasını içeren Çince odaklı açık veri setleri."
     },
@@ -91,14 +91,14 @@
   },
   {
     "name": {
-      "zh-CN": "GitHub開源資料集",
+      "zh-TW": "GitHub開源資料集",
       "en": "GitHub Awesome Public Datasets",
       "tr": "GitHub Harika Açık Veri Setleri"
     },
     "link": "https://github.com/awesomedata/awesome-public-datasets",
     "image": "/imgs/github.png",
     "description": {
-      "zh-CN": "在GitHub上整理的優秀的公開資料集資源，涉及多個領域和方向。",
+      "zh-TW": "在GitHub上整理的優秀的公開資料集資源，涉及多個領域和方向。",
       "en": "A curated list of awesome public datasets on GitHub, covering multiple domains and topics.",
       "tr": "GitHub'da birden fazla alanı ve konuyu kapsayan seçilmiş açık veri setleri listesi."
     },
@@ -106,14 +106,14 @@
   },
   {
     "name": {
-      "zh-CN": "AWS亞馬遜開源資料集",
+      "zh-TW": "AWS亞馬遜開源資料集",
       "en": "AWS Open Data",
       "tr": "AWS Açık Veri"
     },
     "link": "https://registry.opendata.aws/",
     "image": "/imgs/aws.png",
     "description": {
-      "zh-CN": "提供了大量的公開資料集，涵蓋多個領域，可在亞馬遜雲服務上直接訪問和使用。",
+      "zh-TW": "提供了大量的公開資料集，涵蓋多個領域，可在亞馬遜雲服務上直接訪問和使用。",
       "en": "Provides numerous public datasets across multiple domains, directly accessible on AWS cloud services.",
       "tr": "AWS bulut hizmetlerinde doğrudan erişilebilen, birden fazla alanda çok sayıda açık veri seti sunar."
     },
@@ -121,13 +121,13 @@
   },
   {
     "name": {
-      "zh-CN": "TIANCHI天池開源資料集",
+      "zh-TW": "TIANCHI天池開源資料集",
       "en": "TIANCHI Open Datasets",
       "tr": "TIANCHI Açık Veri Setleri"
     },
     "link": "https://tianchi.aliyun.com/dataset/",
     "description": {
-      "zh-CN": "阿里雲天池平臺提供的開源資料集，涵蓋多個領域的競賽資料和公開資料。",
+      "zh-TW": "阿里雲天池平臺提供的開源資料集，涵蓋多個領域的競賽資料和公開資料。",
       "en": "Open datasets from Alibaba Cloud's Tianchi platform, covering competition and public data across multiple domains.",
       "tr": "Alibaba Cloud'un Tianchi platformundan, birden fazla alanda yarışma ve açık verileri kapsayan veri setleri."
     },
@@ -135,13 +135,13 @@
   },
   {
     "name": {
-      "zh-CN": "UCI開源資料集",
+      "zh-TW": "UCI開源資料集",
       "en": "UCI Machine Learning Repository",
       "tr": "UCI Makine Öğrenmesi Deposu"
     },
     "link": "https://archive.ics.uci.edu/datasets",
     "description": {
-      "zh-CN": "加州大學歐文分校提供的開源資料集，涵蓋多個領域，常用於機器學習研究。",
+      "zh-TW": "加州大學歐文分校提供的開源資料集，涵蓋多個領域，常用於機器學習研究。",
       "en": "Open datasets from UC Irvine, covering multiple domains, widely used for machine learning research.",
       "tr": "UC Irvine'dan birden fazla alanı kapsayan, makine öğrenmesi araştırmaları için yaygın olarak kullanılan açık veri setleri."
     },
@@ -149,13 +149,13 @@
   },
   {
     "name": {
-      "zh-CN": "計算機視覺開源資料集",
+      "zh-TW": "計算機視覺開源資料集",
       "en": "Visual Data Discovery",
       "tr": "Görsel Veri Keşfi"
     },
     "link": "https://visualdata.io/discovery",
     "description": {
-      "zh-CN": "專注於計算機視覺領域的開源資料集，支援相關模型的訓練和評估。",
+      "zh-TW": "專注於計算機視覺領域的開源資料集，支援相關模型的訓練和評估。",
       "en": "Open datasets focused on computer vision, supporting related model training and evaluation.",
       "tr": "Bilgisayar görüşüne odaklanan, ilgili model eğitimi ve değerlendirmesini destekleyen açık veri setleri."
     },
@@ -163,13 +163,13 @@
   },
   {
     "name": {
-      "zh-CN": "BAAI開源資料集",
+      "zh-TW": "BAAI開源資料集",
       "en": "BAAI Open Datasets",
       "tr": "BAAI Açık Veri Setleri"
     },
     "link": "https://data.baai.ac.cn/data",
     "description": {
-      "zh-CN": "北京智源人工智慧研究院提供的開源資料集，涵蓋多個領域，支援大模型的訓練。",
+      "zh-TW": "北京智源人工智慧研究院提供的開源資料集，涵蓋多個領域，支援大模型的訓練。",
       "en": "Open datasets from Beijing Academy of Artificial Intelligence, supporting large model training across multiple domains.",
       "tr": "Pekin Yapay Zeka Akademisi'nden, birden fazla alanda büyük model eğitimini destekleyen açık veri setleri."
     },
@@ -177,13 +177,13 @@
   },
   {
     "name": {
-      "zh-CN": "百度飛槳開源資料集",
+      "zh-TW": "百度飛槳開源資料集",
       "en": "Baidu PaddlePaddle Datasets",
       "tr": "Baidu PaddlePaddle Veri Setleri"
     },
     "link": "https://aistudio.baidu.com/datasetoverview",
     "description": {
-      "zh-CN": "百度飛槳平臺提供的開源資料集，支援深度學習模型的訓練和評估。",
+      "zh-TW": "百度飛槳平臺提供的開源資料集，支援深度學習模型的訓練和評估。",
       "en": "Open datasets from Baidu's PaddlePaddle platform, supporting deep learning model training and evaluation.",
       "tr": "Baidu'nun PaddlePaddle platformundan, derin öğrenme modeli eğitimi ve değerlendirmesini destekleyen açık veri setleri."
     },
@@ -191,13 +191,13 @@
   },
   {
     "name": {
-      "zh-CN": "啟智開源資料集",
+      "zh-TW": "啟智開源資料集",
       "en": "OpenI Open Datasets",
       "tr": "OpenI Açık Veri Setleri"
     },
     "link": "https://openi.pcl.ac.cn/explore/datasets",
     "description": {
-      "zh-CN": "開源平臺提供的多種開源資料集，涵蓋多個領域，支援模型的訓練和研究。",
+      "zh-TW": "開源平臺提供的多種開源資料集，涵蓋多個領域，支援模型的訓練和研究。",
       "en": "Various open datasets from the OpenI platform, covering multiple domains, supporting model training and research.",
       "tr": "OpenI platformundan, birden fazla alanı kapsayan, model eğitimi ve araştırmayı destekleyen çeşitli açık veri setleri."
     },
@@ -205,13 +205,13 @@
   },
   {
     "name": {
-      "zh-CN": "LAION-2B-en",
+      "zh-TW": "LAION-2B-en",
       "en": "LAION-2B-en",
       "tr": "LAION-2B-en"
     },
     "link": "https://laion.ai/",
     "description": {
-      "zh-CN": "包含25億張影像和相應的文字描述，適用於多模態模型的訓練。",
+      "zh-TW": "包含25億張影像和相應的文字描述，適用於多模態模型的訓練。",
       "en": "Contains 2.5 billion images with corresponding text descriptions, suitable for multimodal model training.",
       "tr": "2,5 milyar görüntü ve karşılık gelen metin açıklamalarını içerir, çok modlu model eğitimi için uygundur."
     },
@@ -219,13 +219,13 @@
   },
   {
     "name": {
-      "zh-CN": "Common Crawl",
+      "zh-TW": "Common Crawl",
       "en": "Common Crawl",
       "tr": "Common Crawl"
     },
     "link": "https://commoncrawl.org/",
     "description": {
-      "zh-CN": "提供了大量的網頁爬取資料，可用於語言模型的訓練。",
+      "zh-TW": "提供了大量的網頁爬取資料，可用於語言模型的訓練。",
       "en": "Provides large-scale web crawl data for language model training.",
       "tr": "Dil modeli eğitimi için büyük ölçekli web tarama verileri sağlar."
     },
@@ -233,13 +233,13 @@
   },
   {
     "name": {
-      "zh-CN": "The Pile",
+      "zh-TW": "The Pile",
       "en": "The Pile",
       "tr": "The Pile"
     },
     "link": "https://github.com/EleutherAI/the-pile",
     "description": {
-      "zh-CN": "由多個數據集組成的大型語言模型訓練資料集，涵蓋多種文字型別。",
+      "zh-TW": "由多個數據集組成的大型語言模型訓練資料集，涵蓋多種文字型別。",
       "en": "A large language model training dataset composed of multiple datasets, covering various text types.",
       "tr": "Çeşitli metin türlerini kapsayan, birden fazla veri setinden oluşan büyük bir dil modeli eğitim veri seti."
     },
@@ -247,13 +247,13 @@
   },
   {
     "name": {
-      "zh-CN": "MuJoCo",
+      "zh-TW": "MuJoCo",
       "en": "MuJoCo",
       "tr": "MuJoCo"
     },
     "link": "https://mujoco.org/",
     "description": {
-      "zh-CN": "用於物理模擬的機器人互動資料集，適用於強化學習和機器人控制任務。",
+      "zh-TW": "用於物理模擬的機器人互動資料集，適用於強化學習和機器人控制任務。",
       "en": "Robot interaction dataset for physics simulation, suitable for reinforcement learning and robot control tasks.",
       "tr": "Fizik simülasyonu için robot etkileşim veri seti, pekiştirmeli öğrenme ve robot kontrol görevleri için uygundur."
     },
@@ -261,13 +261,13 @@
   },
   {
     "name": {
-      "zh-CN": "Robotics Datasets",
+      "zh-TW": "Robotics Datasets",
       "en": "Robotics Datasets",
       "tr": "Robotik Veri Setleri"
     },
     "link": "https://roboticsdatasets.github.io/",
     "description": {
-      "zh-CN": "提供了多種機器人互動資料集，支援機器人學習和控制任務。",
+      "zh-TW": "提供了多種機器人互動資料集，支援機器人學習和控制任務。",
       "en": "Provides various robot interaction datasets, supporting robot learning and control tasks.",
       "tr": "Robot öğrenme ve kontrol görevlerini destekleyen çeşitli robot etkileşim veri setleri sunar."
     },
@@ -275,13 +275,13 @@
   },
   {
     "name": {
-      "zh-CN": "Atari Games",
+      "zh-TW": "Atari Games",
       "en": "Atari Games",
       "tr": "Atari Oyunları"
     },
     "link": "https://www.atari.com/games",
     "description": {
-      "zh-CN": "經典的Atari遊戲資料集，用於強化學習演算法的基準測試。",
+      "zh-TW": "經典的Atari遊戲資料集，用於強化學習演算法的基準測試。",
       "en": "Classic Atari game dataset for benchmarking reinforcement learning algorithms.",
       "tr": "Pekiştirmeli öğrenme algoritmalarının kıyaslaması için klasik Atari oyun veri seti."
     },
@@ -289,13 +289,13 @@
   },
   {
     "name": {
-      "zh-CN": "Web-crawled Interactions",
+      "zh-TW": "Web-crawled Interactions",
       "en": "Web-crawled Interactions",
       "tr": "Web Tarama Etkileşimleri"
     },
     "link": "https://commoncrawl.org/",
     "description": {
-      "zh-CN": "從網路平臺上爬取的使用者行為資料，適用於訓練互動式代理。",
+      "zh-TW": "從網路平臺上爬取的使用者行為資料，適用於訓練互動式代理。",
       "en": "User behavior data crawled from web platforms, suitable for training interactive agents.",
       "tr": "Web platformlarından toplanan kullanıcı davranış verileri, etkileşimli ajanların eğitimi için uygundur."
     },
@@ -303,13 +303,13 @@
   },
   {
     "name": {
-      "zh-CN": "AI2 ARC Dataset",
+      "zh-TW": "AI2 ARC Dataset",
       "en": "AI2 ARC Dataset",
       "tr": "AI2 ARC Veri Seti"
     },
     "link": "https://allenai.org/data/arc",
     "description": {
-      "zh-CN": "用於評估AI常識推理和解決問題能力的多選題資料集。",
+      "zh-TW": "用於評估AI常識推理和解決問題能力的多選題資料集。",
       "en": "Multiple-choice dataset for evaluating AI common sense reasoning and problem-solving abilities.",
       "tr": "Yapay zekanın sağduyu muhakemesi ve problem çözme yeteneklerini değerlendirmek için çoktan seçmeli veri seti."
     },
@@ -317,13 +317,13 @@
   },
   {
     "name": {
-      "zh-CN": "Speech Commands Dataset",
+      "zh-TW": "Speech Commands Dataset",
       "en": "Speech Commands Dataset",
       "tr": "Konuşma Komutları Veri Seti"
     },
     "link": "https://www.tensorflow.org/datasets/catalog/speech_commands",
     "description": {
-      "zh-CN": "包含數千個語音命令的音訊資料集，適用於語音識別任務。",
+      "zh-TW": "包含數千個語音命令的音訊資料集，適用於語音識別任務。",
       "en": "Audio dataset containing thousands of voice commands, suitable for speech recognition tasks.",
       "tr": "Binlerce sesli komut içeren ses veri seti, konuşma tanıma görevleri için uygundur."
     },
@@ -331,13 +331,13 @@
   },
   {
     "name": {
-      "zh-CN": "Environmental Audio Datasets",
+      "zh-TW": "Environmental Audio Datasets",
       "en": "Environmental Audio Datasets",
       "tr": "Çevresel Ses Veri Setleri"
     },
     "link": "https://www.tensorflow.org/datasets/catalog/audioset",
     "description": {
-      "zh-CN": "包含環境聲音事件的音訊資料集，適用於音訊場景分類任務。",
+      "zh-TW": "包含環境聲音事件的音訊資料集，適用於音訊場景分類任務。",
       "en": "Audio dataset containing environmental sound events, suitable for audio scene classification tasks.",
       "tr": "Çevresel ses olaylarını içeren ses veri seti, ses sahne sınıflandırma görevleri için uygundur."
     },
@@ -345,13 +345,13 @@
   },
   {
     "name": {
-      "zh-CN": "COVID-19 Open Research Dataset",
+      "zh-TW": "COVID-19 Open Research Dataset",
       "en": "COVID-19 Open Research Dataset",
       "tr": "COVID-19 Açık Araştırma Veri Seti"
     },
     "link": "https://www.kaggle.com/allenai/cord-19-research-challenge",
     "description": {
-      "zh-CN": "包含45,000篇關於COVID-19的學術文章，適用於醫療AI研究。",
+      "zh-TW": "包含45,000篇關於COVID-19的學術文章，適用於醫療AI研究。",
       "en": "Contains 45,000 scholarly articles about COVID-19, suitable for medical AI research.",
       "tr": "COVID-19 hakkında 45.000 akademik makale içerir, tıbbi yapay zeka araştırmaları için uygundur."
     },
@@ -359,13 +359,13 @@
   },
   {
     "name": {
-      "zh-CN": "Waymo Open Dataset",
+      "zh-TW": "Waymo Open Dataset",
       "en": "Waymo Open Dataset",
       "tr": "Waymo Açık Veri Seti"
     },
     "link": "https://waymo.com/open/",
     "description": {
-      "zh-CN": "由Waymo釋出的最多樣化的自動駕駛資料集。",
+      "zh-TW": "由Waymo釋出的最多樣化的自動駕駛資料集。",
       "en": "The most diverse autonomous driving dataset released by Waymo.",
       "tr": "Waymo tarafından yayınlanan en çeşitli otonom sürüş veri seti."
     },
@@ -373,13 +373,13 @@
   },
   {
     "name": {
-      "zh-CN": "Labelme",
+      "zh-TW": "Labelme",
       "en": "Labelme",
       "tr": "Labelme"
     },
     "link": "http://labelme.csail.mit.edu/Release3.0/",
     "description": {
-      "zh-CN": "包含大量標註影像的資料集，適用於計算機視覺任務。",
+      "zh-TW": "包含大量標註影像的資料集，適用於計算機視覺任務。",
       "en": "Dataset containing a large number of annotated images, suitable for computer vision tasks.",
       "tr": "Çok sayıda etiketlenmiş görüntü içeren veri seti, bilgisayar görüşü görevleri için uygundur."
     },
@@ -387,13 +387,13 @@
   },
   {
     "name": {
-      "zh-CN": "Stanford Dogs Dataset",
+      "zh-TW": "Stanford Dogs Dataset",
       "en": "Stanford Dogs Dataset",
       "tr": "Stanford Köpekler Veri Seti"
     },
     "link": "http://vision.stanford.edu/aditya86/ImageNetDogs/",
     "description": {
-      "zh-CN": "包含20,500多張不同狗品種的影像資料集。",
+      "zh-TW": "包含20,500多張不同狗品種的影像資料集。",
       "en": "Image dataset containing over 20,500 images of different dog breeds.",
       "tr": "Farklı köpek ırklarının 20.500'den fazla görüntüsünü içeren görüntü veri seti."
     },
@@ -401,13 +401,13 @@
   },
   {
     "name": {
-      "zh-CN": "Flickr Audio Caption Corpus",
+      "zh-TW": "Flickr Audio Caption Corpus",
       "en": "Flickr Audio Caption Corpus",
       "tr": "Flickr Sesli Altyazı Koleksiyonu"
     },
     "link": "https://www.multispeech.org/2018/challenge.html",
     "description": {
-      "zh-CN": "包含超過40,000個口語描述的音訊資料集。",
+      "zh-TW": "包含超過40,000個口語描述的音訊資料集。",
       "en": "Audio dataset containing over 40,000 spoken descriptions.",
       "tr": "40.000'den fazla sözlü açıklama içeren ses veri seti."
     },
@@ -415,13 +415,13 @@
   },
   {
     "name": {
-      "zh-CN": "Data.gov",
+      "zh-TW": "Data.gov",
       "en": "Data.gov",
       "tr": "Data.gov"
     },
     "link": "https://www.data.gov/",
     "description": {
-      "zh-CN": "美國政府開放資料平臺，涵蓋農業、氣候、教育、能源等領域的公開資料集。",
+      "zh-TW": "美國政府開放資料平臺，涵蓋農業、氣候、教育、能源等領域的公開資料集。",
       "en": "U.S. government open data platform covering public datasets in agriculture, climate, education, energy, and more.",
       "tr": "Tarım, iklim, eğitim, enerji ve daha fazla alanda açık veri setlerini kapsayan ABD hükümeti açık veri platformu."
     },
@@ -429,13 +429,13 @@
   },
   {
     "name": {
-      "zh-CN": "Eurostat",
+      "zh-TW": "Eurostat",
       "en": "Eurostat",
       "tr": "Eurostat"
     },
     "link": "https://ec.europa.eu/eurostat",
     "description": {
-      "zh-CN": "歐盟統計局提供的經濟、人口、社會等多領域統計資料。",
+      "zh-TW": "歐盟統計局提供的經濟、人口、社會等多領域統計資料。",
       "en": "Statistical data from the EU statistics office covering economics, population, society, and more.",
       "tr": "AB istatistik ofisinden ekonomi, nüfus, toplum ve daha fazla alanı kapsayan istatistiksel veriler."
     },
@@ -443,13 +443,13 @@
   },
   {
     "name": {
-      "zh-CN": "ImageNet",
+      "zh-TW": "ImageNet",
       "en": "ImageNet",
       "tr": "ImageNet"
     },
     "link": "https://www.image-net.org/",
     "description": {
-      "zh-CN": "大型影像資料集，包含數百萬張標註影像，廣泛用於計算機視覺任務。",
+      "zh-TW": "大型影像資料集，包含數百萬張標註影像，廣泛用於計算機視覺任務。",
       "en": "Large-scale image dataset containing millions of annotated images, widely used for computer vision tasks.",
       "tr": "Milyonlarca etiketlenmiş görüntü içeren büyük ölçekli görüntü veri seti, bilgisayar görüşü görevlerinde yaygın olarak kullanılır."
     },
@@ -457,13 +457,13 @@
   },
   {
     "name": {
-      "zh-CN": "COCO Dataset",
+      "zh-TW": "COCO Dataset",
       "en": "COCO Dataset",
       "tr": "COCO Veri Seti"
     },
     "link": "https://cocodataset.org/",
     "description": {
-      "zh-CN": "通用物體識別與分割資料集，適用於目標檢測和影像分割任務。",
+      "zh-TW": "通用物體識別與分割資料集，適用於目標檢測和影像分割任務。",
       "en": "Common Objects in Context dataset for object detection and image segmentation tasks.",
       "tr": "Nesne tespiti ve görüntü segmentasyonu görevleri için Bağlamda Ortak Nesneler veri seti."
     },
@@ -471,13 +471,13 @@
   },
   {
     "name": {
-      "zh-CN": "World Bank Open Data",
+      "zh-TW": "World Bank Open Data",
       "en": "World Bank Open Data",
       "tr": "Dünya Bankası Açık Veri"
     },
     "link": "https://data.worldbank.org/",
     "description": {
-      "zh-CN": "世界銀行提供的全球經濟指標、發展資料及統計報告。",
+      "zh-TW": "世界銀行提供的全球經濟指標、發展資料及統計報告。",
       "en": "Global economic indicators, development data, and statistical reports from the World Bank.",
       "tr": "Dünya Bankası'ndan küresel ekonomik göstergeler, kalkınma verileri ve istatistiksel raporlar."
     },
@@ -485,13 +485,13 @@
   },
   {
     "name": {
-      "zh-CN": "NASA Earth Data",
+      "zh-TW": "NASA Earth Data",
       "en": "NASA Earth Data",
       "tr": "NASA Dünya Verileri"
     },
     "link": "https://earthdata.nasa.gov/",
     "description": {
-      "zh-CN": "NASA地球科學資料，涵蓋氣候、地質、環境等領域的遙感資料。",
+      "zh-TW": "NASA地球科學資料，涵蓋氣候、地質、環境等領域的遙感資料。",
       "en": "NASA Earth science data covering climate, geology, and environmental remote sensing data.",
       "tr": "İklim, jeoloji ve çevresel uzaktan algılama verilerini kapsayan NASA Dünya bilimi verileri."
     },
@@ -499,13 +499,13 @@
   },
   {
     "name": {
-      "zh-CN": "Yelp Open Dataset",
+      "zh-TW": "Yelp Open Dataset",
       "en": "Yelp Open Dataset",
       "tr": "Yelp Açık Veri Seti"
     },
     "link": "https://www.yelp.com/dataset",
     "description": {
-      "zh-CN": "包含商家資訊、使用者評論和圖片資料，適用於商業分析和NLP任務。",
+      "zh-TW": "包含商家資訊、使用者評論和圖片資料，適用於商業分析和NLP任務。",
       "en": "Contains business information, user reviews, and image data, suitable for business analytics and NLP tasks.",
       "tr": "İşletme bilgileri, kullanıcı yorumları ve görüntü verileri içerir, iş analitiği ve NLP görevleri için uygundur."
     },
@@ -513,13 +513,13 @@
   },
   {
     "name": {
-      "zh-CN": "CIFAR-10/100",
+      "zh-TW": "CIFAR-10/100",
       "en": "CIFAR-10/100",
       "tr": "CIFAR-10/100"
     },
     "link": "https://www.cs.toronto.edu/~kriz/cifar.html",
     "description": {
-      "zh-CN": "經典的小規模影像分類資料集，包含10或100個類別的標註影像。",
+      "zh-TW": "經典的小規模影像分類資料集，包含10或100個類別的標註影像。",
       "en": "Classic small-scale image classification dataset containing annotated images in 10 or 100 categories.",
       "tr": "10 veya 100 kategoride etiketlenmiş görüntüler içeren klasik küçük ölçekli görüntü sınıflandırma veri seti."
     },
@@ -527,13 +527,13 @@
   },
   {
     "name": {
-      "zh-CN": "Global Health Observatory (WHO)",
+      "zh-TW": "Global Health Observatory (WHO)",
       "en": "Global Health Observatory (WHO)",
       "tr": "Küresel Sağlık Gözlemevi (WHO)"
     },
     "link": "https://www.who.int/data/gho",
     "description": {
-      "zh-CN": "世界衛生組織提供的全球公共衛生統計資料，包括疾病、營養等主題。",
+      "zh-TW": "世界衛生組織提供的全球公共衛生統計資料，包括疾病、營養等主題。",
       "en": "Global public health statistics from WHO, covering topics such as diseases, nutrition, and more.",
       "tr": "DSÖ'den hastalıklar, beslenme ve daha fazla konuyu kapsayan küresel halk sağlığı istatistikleri."
     },
@@ -541,13 +541,13 @@
   },
   {
     "name": {
-      "zh-CN": "arXiv Dataset",
+      "zh-TW": "arXiv Dataset",
       "en": "arXiv Dataset",
       "tr": "arXiv Veri Seti"
     },
     "link": "https://www.kaggle.com/Cornell-University/arxiv",
     "description": {
-      "zh-CN": "包含數百萬篇arXiv學術論文的元資料和全文，適用於文字挖掘研究。",
+      "zh-TW": "包含數百萬篇arXiv學術論文的元資料和全文，適用於文字挖掘研究。",
       "en": "Contains metadata and full text of millions of arXiv scholarly papers, suitable for text mining research.",
       "tr": "Milyonlarca arXiv akademik makalenin meta verilerini ve tam metnini içerir, metin madenciliği araştırmaları için uygundur."
     },
@@ -555,13 +555,13 @@
   },
   {
     "name": {
-      "zh-CN": "LibriSpeech",
+      "zh-TW": "LibriSpeech",
       "en": "LibriSpeech",
       "tr": "LibriSpeech"
     },
     "link": "https://www.openslr.org/12",
     "description": {
-      "zh-CN": "包含1000小時英語語音資料，適用於語音識別模型訓練。",
+      "zh-TW": "包含1000小時英語語音資料，適用於語音識別模型訓練。",
       "en": "Contains 1,000 hours of English speech data, suitable for speech recognition model training.",
       "tr": "1.000 saat İngilizce konuşma verisi içerir, konuşma tanıma modeli eğitimi için uygundur."
     },
@@ -569,13 +569,13 @@
   },
   {
     "name": {
-      "zh-CN": "KITTI Vision Benchmark",
+      "zh-TW": "KITTI Vision Benchmark",
       "en": "KITTI Vision Benchmark",
       "tr": "KITTI Görüş Kıyaslaması"
     },
     "link": "http://www.cvlibs.net/datasets/kitti/",
     "description": {
-      "zh-CN": "自動駕駛領域經典資料集，包含立體視覺、雷射雷達等多模態資料。",
+      "zh-TW": "自動駕駛領域經典資料集，包含立體視覺、雷射雷達等多模態資料。",
       "en": "Classic autonomous driving dataset containing stereo vision, LiDAR, and other multimodal data.",
       "tr": "Stereo görüş, LiDAR ve diğer çok modlu verileri içeren klasik otonom sürüş veri seti."
     },
@@ -583,13 +583,13 @@
   },
   {
     "name": {
-      "zh-CN": "Cityscapes Dataset",
+      "zh-TW": "Cityscapes Dataset",
       "en": "Cityscapes Dataset",
       "tr": "Cityscapes Veri Seti"
     },
     "link": "https://www.cityscapes-dataset.com/",
     "description": {
-      "zh-CN": "城市街景語義分割資料集，支援自動駕駛和計算機視覺研究。",
+      "zh-TW": "城市街景語義分割資料集，支援自動駕駛和計算機視覺研究。",
       "en": "Urban street scene semantic segmentation dataset, supporting autonomous driving and computer vision research.",
       "tr": "Otonom sürüş ve bilgisayar görüşü araştırmalarını destekleyen kentsel sokak sahnesi anlamsal segmentasyon veri seti."
     },
@@ -597,13 +597,13 @@
   },
   {
     "name": {
-      "zh-CN": "CDC Data",
+      "zh-TW": "CDC Data",
       "en": "CDC Data",
       "tr": "CDC Verileri"
     },
     "link": "https://data.cdc.gov/",
     "description": {
-      "zh-CN": "美國疾病控制與預防中心釋出的公共衛生資料集，涵蓋疾病追蹤和健康統計。",
+      "zh-TW": "美國疾病控制與預防中心釋出的公共衛生資料集，涵蓋疾病追蹤和健康統計。",
       "en": "Public health datasets from the U.S. CDC, covering disease tracking and health statistics.",
       "tr": "ABD CDC'den hastalık takibi ve sağlık istatistiklerini kapsayan halk sağlığı veri setleri."
     },
@@ -611,13 +611,13 @@
   },
   {
     "name": {
-      "zh-CN": "OpenStreetMap",
+      "zh-TW": "OpenStreetMap",
       "en": "OpenStreetMap",
       "tr": "OpenStreetMap"
     },
     "link": "https://www.openstreetmap.org/",
     "description": {
-      "zh-CN": "開源地理資料協作專案，提供全球範圍的道路、建築等地理資訊資料。",
+      "zh-TW": "開源地理資料協作專案，提供全球範圍的道路、建築等地理資訊資料。",
       "en": "Open-source geographic data collaboration project providing worldwide road, building, and other geographic information.",
       "tr": "Dünya çapında yol, bina ve diğer coğrafi bilgileri sağlayan açık kaynak coğrafi veri işbirliği projesi."
     },
@@ -625,13 +625,13 @@
   },
   {
     "name": {
-      "zh-CN": "FiveThirtyEight Datasets",
+      "zh-TW": "FiveThirtyEight Datasets",
       "en": "FiveThirtyEight Datasets",
       "tr": "FiveThirtyEight Veri Setleri"
     },
     "link": "https://data.fivethirtyeight.com/",
     "description": {
-      "zh-CN": "涵蓋政治、體育、文化等領域的資料集，常用於資料新聞分析。",
+      "zh-TW": "涵蓋政治、體育、文化等領域的資料集，常用於資料新聞分析。",
       "en": "Datasets covering politics, sports, culture, and more, commonly used for data journalism analysis.",
       "tr": "Siyaset, spor, kültür ve daha fazla alanı kapsayan, veri gazeteciliği analizi için yaygın olarak kullanılan veri setleri."
     },
@@ -639,13 +639,13 @@
   },
   {
     "name": {
-      "zh-CN": "Human Protein Atlas",
+      "zh-TW": "Human Protein Atlas",
       "en": "Human Protein Atlas",
       "tr": "İnsan Protein Atlası"
     },
     "link": "https://www.proteinatlas.org/",
     "description": {
-      "zh-CN": "包含人體蛋白質分佈的組織影像資料，支援生物醫學研究。",
+      "zh-TW": "包含人體蛋白質分佈的組織影像資料，支援生物醫學研究。",
       "en": "Contains tissue image data on human protein distribution, supporting biomedical research.",
       "tr": "İnsan protein dağılımı üzerine doku görüntü verileri içerir, biyomedikal araştırmaları destekler."
     },

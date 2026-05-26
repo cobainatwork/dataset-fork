@@ -15,7 +15,7 @@ export async function POST(request, { params }) {
     }
 
     // 獲取請求體
-    const { model, language = 'zh-CN' } = await request.json();
+    const { model, language = 'zh-TW' } = await request.json();
 
     if (!model) {
       return NextResponse.json({ error: 'Model configuration is required' }, { status: 400 });

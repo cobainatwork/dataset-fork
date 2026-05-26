@@ -118,7 +118,7 @@ export async function POST(request, { params }) {
     const { projectId } = params;
     const data = await request.json();
 
-    const { modelA, modelB, evalDatasetIds, language = 'zh-CN' } = data;
+    const { modelA, modelB, evalDatasetIds, language = 'zh-TW' } = data;
 
     if (!modelA || !modelA.modelId || !modelA.providerId) {
       return NextResponse.json({ code: 400, error: 'Please select model A' }, { status: 400 });

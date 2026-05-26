@@ -13,7 +13,7 @@ import { processTask } from '@/lib/services/tasks/index';
 export async function POST(request, { params }) {
   try {
     const { projectId } = params;
-    const { model, language = 'zh-CN' } = await request.json();
+    const { model, language = 'zh-TW' } = await request.json();
 
     if (!projectId) {
       return NextResponse.json({ success: false, message: '專案ID不能為空' }, { status: 400 });
@@ -30,7 +30,7 @@ export async function POST(request, { params }) {
         taskType: 'dataset-evaluation',
         status: 0, // 初始狀態: 處理中
         modelInfo: JSON.stringify(model),
-        language: language || 'zh-CN',
+        language: language || 'zh-TW',
         detail: '',
         totalCount: 0,
         note: '準備開始批次評估資料集品質...',

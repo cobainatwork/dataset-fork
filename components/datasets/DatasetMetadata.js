@@ -23,7 +23,7 @@ export default function DatasetMetadata({ currentDataset, onViewChunk }) {
           <Chip label={`${t('common.label')}: ${currentDataset.questionLabel}`} color="primary" variant="outlined" />
         )}
         <Chip
-          label={`${t('datasets.createdAt')}: ${new Date(currentDataset.createAt).toLocaleString('zh-CN')}`}
+          label={`${t('datasets.createdAt')}: ${new Date(currentDataset.createAt).toLocaleString('zh-TW')}`}
           variant="outlined"
         />
         <Tooltip title={t('textSplit.viewChunk')}>

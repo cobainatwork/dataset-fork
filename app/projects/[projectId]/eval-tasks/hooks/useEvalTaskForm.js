@@ -137,7 +137,7 @@ export function useEvalTaskForm(projectId, open) {
   };
 
   // 初始化評分規則（根據語言環境）
-  const initScoreAnchors = (language = 'zh-CN') => {
+  const initScoreAnchors = (language = 'zh-TW') => {
     setShortAnswerScoreAnchors(getDefaultScoreAnchors('short_answer', language));
     setOpenEndedScoreAnchors(getDefaultScoreAnchors('open_ended', language));
   };

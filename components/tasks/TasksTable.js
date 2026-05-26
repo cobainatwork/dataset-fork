@@ -41,7 +41,7 @@ export default function TasksTable({
     const date = new Date(dateString);
     return formatDistanceToNow(date, {
       addSuffix: true,
-      locale: i18n.language === 'zh-CN' ? zhCN : enUS
+      locale: i18n.language === 'zh-TW' ? zhCN : enUS
     });
   };
 

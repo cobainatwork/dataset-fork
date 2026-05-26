@@ -13,14 +13,14 @@ export default function LanguageSwitcher() {
 
   const languages = [
     { code: 'en', label: t('language.english', 'English'), short: 'EN' },
-    { code: 'zh-CN', label: t('language.chineseSimplified', '簡體中文'), short: '中文' },
+    { code: 'zh-TW', label: t('language.chineseTraditional', '繁體中文'), short: '中文' },
     { code: 'tr', label: t('language.turkish', 'Türkçe'), short: 'TR' },
     { code: 'pt-BR', label: t('language.portugues', 'Portugues'), short: 'pt-BR' },
     { code: 'it', label: t('language.italian', 'Italiano'), short: 'IT' }
   ];
 
   const normalizedCurrentLanguage =
-    i18n.language && String(i18n.language).toLowerCase().startsWith('zh') ? 'zh-CN' : i18n.language;
+    i18n.language && String(i18n.language).toLowerCase().startsWith('zh') ? 'zh-TW' : i18n.language;
   const currentLanguage = languages.find(lang => lang.code === normalizedCurrentLanguage) || languages[0];
 
   const handleClick = event => {

@@ -25,7 +25,7 @@ export default function ScoreAnchorsForm({
   questionType, // 'short_answer' 或 'open_ended'
   scoreAnchors,
   onChange,
-  language = 'zh-CN'
+  language = 'zh-TW'
 }) {
   const { t, i18n } = useTranslation();
   const [expanded, setExpanded] = useState(false);

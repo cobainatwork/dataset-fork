@@ -51,7 +51,7 @@ const useDatasetEvaluation = (projectId, onEvaluationComplete) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           model,
-          language: 'zh-CN'
+          language: 'zh-TW'
         })
       });
 
@@ -102,7 +102,7 @@ const useDatasetEvaluation = (projectId, onEvaluationComplete) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           model,
-          language: 'zh-CN'
+          language: 'zh-TW'
         })
       });
 

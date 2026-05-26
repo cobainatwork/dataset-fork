@@ -778,7 +778,7 @@ class AutoDistillService {
         projectId,
         questionId,
         model,
-        language: language || 'zh-CN'
+        language: language || 'zh-TW'
       });
 
       return response.data;

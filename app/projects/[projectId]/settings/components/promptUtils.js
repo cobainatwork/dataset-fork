@@ -5,12 +5,12 @@
 /**
  * 從提示詞鍵名解析語言
  * @param {string} promptKey 提示詞鍵名
- * @returns {string} 語言程式碼 ('zh-CN' 或 'en')
+ * @returns {string} 語言程式碼 ('zh-TW' 或 'en')
  */
 export const getLanguageFromPromptKey = promptKey => {
   if (promptKey?.endsWith('_EN')) return 'en';
   if (promptKey?.endsWith('_TR')) return 'tr';
-  return 'zh-CN';
+  return 'zh-TW';
 };
 
 /**

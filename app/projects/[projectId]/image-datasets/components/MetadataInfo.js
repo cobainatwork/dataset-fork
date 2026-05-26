@@ -60,7 +60,7 @@ export default function MetadataInfo({ dataset }) {
 
         {/* 建立時間 */}
         <Chip
-          label={`${t('imageDatasets.createdAt', '建立時間')}: ${new Date(dataset.createAt).toLocaleString('zh-CN', {
+          label={`${t('imageDatasets.createdAt', '建立時間')}: ${new Date(dataset.createAt).toLocaleString('zh-TW', {
             month: '2-digit',
             day: '2-digit',
             hour: '2-digit',
@@ -124,7 +124,7 @@ export default function MetadataInfo({ dataset }) {
             {dataset.image.createAt && (
               <Chip
                 label={`${t('images.uploadTime', '上傳時間')}: ${new Date(dataset.image.createAt).toLocaleString(
-                  'zh-CN',
+                  'zh-TW',
                   {
                     month: '2-digit',
                     day: '2-digit',

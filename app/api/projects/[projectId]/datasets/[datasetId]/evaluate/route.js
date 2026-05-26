@@ -7,7 +7,7 @@ import { evaluateDataset } from '@/lib/services/datasets/evaluation';
 export async function POST(request, { params }) {
   try {
     const { projectId, datasetId } = params;
-    const { model, language = 'zh-CN' } = await request.json();
+    const { model, language = 'zh-TW' } = await request.json();
 
     if (!projectId || !datasetId) {
       return NextResponse.json({ success: false, message: '專案ID和資料集ID不能為空' }, { status: 400 });

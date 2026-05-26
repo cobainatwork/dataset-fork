@@ -87,7 +87,7 @@ export async function POST(request, { params }) {
       evalDatasetIds, // Evaluation question IDs
       judgeModelId, // Judge model ID (for subjective grading)
       judgeProviderId, // Judge provider ID
-      language = 'zh-CN',
+      language = 'zh-TW',
       filterOptions = {}, // Filter options (for display)
       customScoreAnchors = null // Custom score anchors for subjective grading
     } = data;

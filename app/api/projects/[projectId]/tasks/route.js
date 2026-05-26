@@ -132,7 +132,7 @@ export async function POST(request, { params }) {
         taskType,
         status: 0, // 初始狀態: 處理中
         modelInfo: JSON.stringify(normalizeTaskModelInfo(modelInfo)),
-        language: language || 'zh-CN',
+        language: language || 'zh-TW',
         detail: detail || '',
         totalCount,
         note: note ? JSON.stringify(note) : '',
