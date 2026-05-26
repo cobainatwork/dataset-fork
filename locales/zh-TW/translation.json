@@ -321,14 +321,14 @@
     "contextNavigation": "上下文導航"
   },
   "home": {
-    "title": "Easy Dataset",
-    "subtitle": "一個強大的大型語言模型微調資料集建立工具",
+    "title": "Dataset",
+    "subtitle": "大型語言模型微調資料集建立工具",
     "createProject": "建立專案",
     "searchDataset": "搜尋公開資料集"
   },
   "projects": {
     "reuseConfig": "複用模型配置",
-    "noReuse": "不復用配置",
+    "noReuse": "不複用配置",
     "selectProject": "選擇專案",
     "allProjects": "所有專案",
     "projectMenu": "專案選單",
