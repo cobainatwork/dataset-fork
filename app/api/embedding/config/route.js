@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getConfig, saveConfig, DEFAULTS } from '@/lib/services/embedding/config';
+import { resetEmbeddingService } from '@/lib/services/embedding';
 
 export const dynamic = 'force-dynamic';
 
@@ -31,5 +32,7 @@ export async function PUT(request) {
   }
 
   await saveConfig(patch);
+  // Invalidate cached embedding service so next call rebuilds with new config
+  resetEmbeddingService();
   return NextResponse.json({ ok: true });
 }
