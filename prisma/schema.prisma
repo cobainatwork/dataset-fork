@@ -1,6 +1,6 @@
 generator client {
   provider      = "prisma-client-js"
-  binaryTargets = ["linux-musl-arm64-openssl-3.0.x"]
+  binaryTargets = ["linux-musl-arm64-openssl-3.0.x", "windows"]
 }
 
 datasource db {
@@ -84,53 +84,66 @@ model Tags {
 }
 
 model Questions {
-  id         String   @id @default(nanoid())
-  project    Projects @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  projectId  String
-  chunk      Chunks   @relation(fields: [chunkId], references: [id])
-  chunkId    String
-  gaPair     GaPairs? @relation(fields: [gaPairId], references: [id])
-  gaPairId   String? // Optional: links question to the GA pair that generated it
-  question   String
-  label      String
-  answered   Boolean  @default(false)
-  imageId    String? // Optional: for image-based questions
-  imageName  String? // Optional: for image-based questions
-  templateId String? // Optional: links to ImageQuestionTemplates
-  createAt   DateTime @default(now())
-  updateAt   DateTime @updatedAt
+  id              String    @id @default(nanoid())
+  project         Projects  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId       String
+  chunk           Chunks    @relation(fields: [chunkId], references: [id])
+  chunkId         String
+  gaPair          GaPairs?  @relation(fields: [gaPairId], references: [id])
+  gaPairId        String? // Optional: links question to the GA pair that generated it
+  question        String
+  label           String
+  answered        Boolean   @default(false)
+  imageId         String? // Optional: for image-based questions
+  imageName       String? // Optional: for image-based questions
+  templateId      String? // Optional: links to ImageQuestionTemplates
+  createAt        DateTime  @default(now())
+  updateAt        DateTime  @updatedAt
+  embeddingModel  String?
+  embeddedAt      DateTime?
+  clusterId       String?
+  clusterRole     String?
+  similarityScore Float?
 
   @@index([projectId])
   @@index([imageId])
   @@index([templateId])
   @@index([projectId, label])
+  @@index([clusterId])
+  @@index([embeddedAt])
 }
 
 model Datasets {
-  id            String   @id @default(nanoid())
-  project       Projects @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  projectId     String
-  questionId    String
-  question      String
-  answer        String
-  answerType    String?  @default("text") // 'text' | 'label' | 'custom_format'
-  chunkName     String
-  chunkContent  String
-  model         String
-  questionLabel String
-  cot           String
-  confirmed     Boolean  @default(false)
-  score         Float    @default(0)
-  aiEvaluation  String   @default("") // AI评估结论
-  tags          String   @default("")
-  note          String   @default("")
-  other         String   @default("") // 存储其他字段的JSON字符串
-  createAt      DateTime @default(now())
-  updateAt      DateTime @updatedAt
+  id                   String    @id @default(nanoid())
+  project              Projects  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId            String
+  questionId           String
+  question             String
+  answer               String
+  answerType           String?   @default("text") // 'text' | 'label' | 'custom_format'
+  chunkName            String
+  chunkContent         String
+  model                String
+  questionLabel        String
+  cot                  String
+  confirmed            Boolean   @default(false)
+  score                Float     @default(0)
+  aiEvaluation         String    @default("") // AI评估结论
+  tags                 String    @default("")
+  note                 String    @default("")
+  other                String    @default("") // 存储其他字段的JSON字符串
+  createAt             DateTime  @default(now())
+  updateAt             DateTime  @updatedAt
+  answerEmbeddingModel String?
+  answerEmbeddedAt     DateTime?
+  clusterId            String?
+  divergenceFlag       String?
 
   @@index([projectId])
   @@index([projectId, confirmed, createAt, id], name: "idx_export_confirmed")
   @@index([projectId, createAt], name: "idx_project_createAt")
+  @@index([clusterId])
+  @@index([divergenceFlag])
 }
 
 model DatasetConversations {
@@ -403,4 +416,104 @@ model EvalResults {
   @@index([projectId])
   @@index([taskId])
   @@index([evalDatasetId])
+}
+
+model EmbeddingConfig {
+  id        String @id @default("default")
+  endpoint  String
+  apiKey    String @default("")
+  modelName String
+  dimension Int    @default(1024)
+
+  hnswM              Int @default(16)
+  hnswEfConstruction Int @default(64)
+  hnswEfSearch       Int @default(40)
+
+  enabled              Boolean @default(false)
+  clusterThreshold     Float   @default(0.88)
+  divergenceThreshold  Float   @default(0.70)
+  scanAnswerDivergence Boolean @default(true)
+
+  workerConcurrency Int @default(4)
+  embedBatchSize    Int @default(32)
+
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+}
+
+model Embeddings {
+  id         String                      @id @default(nanoid(12))
+  sourceType String
+  sourceId   String
+  vector     Unsupported("vector(1024)")
+  modelName  String
+  dimension  Int                         @default(1024)
+  createAt   DateTime                    @default(now())
+
+  @@unique([sourceType, sourceId])
+  @@index([sourceType])
+}
+
+model QuestionCluster {
+  id                  String   @id @default(nanoid(12))
+  primaryQuestionId   String
+  size                Int      @default(1)
+  projectCount        Int      @default(1)
+  avgSimilarity       Float    @default(0)
+  hasAnswerDivergence Boolean  @default(false)
+  divergenceScore     Float?
+  embeddingModel      String
+  thresholdAtCreate   Float
+  version             Int      @default(0)
+  createAt            DateTime @default(now())
+  updateAt            DateTime @updatedAt
+
+  ClusterProject ClusterProject[]
+  Feedback       ClusterFeedback[]
+
+  @@index([hasAnswerDivergence])
+  @@index([size])
+}
+
+model ClusterProject {
+  clusterId String
+  projectId String
+  cluster   QuestionCluster @relation(fields: [clusterId], references: [id], onDelete: Cascade)
+
+  @@id([clusterId, projectId])
+  @@index([projectId])
+  @@index([clusterId])
+}
+
+model ClusterFeedback {
+  id               String          @id @default(nanoid())
+  cluster          QuestionCluster @relation(fields: [clusterId], references: [id], onDelete: Cascade)
+  clusterId        String
+  verdict          String
+  note             String          @default("")
+  similarityAtTime Float
+  createAt         DateTime        @default(now())
+
+  @@index([clusterId])
+  @@index([verdict, similarityAtTime])
+}
+
+model EmbeddingUsageLogs {
+  id           String   @id @default(nanoid())
+  provider     String
+  model        String
+  operation    String
+  tokens       Int      @default(0)
+  vectorCount  Int      @default(1)
+  latency      Int
+  status       String
+  errorMessage String?
+  errorType    String?
+  projectId    String?
+  createAt     DateTime @default(now())
+  dateString   String
+
+  @@index([dateString])
+  @@index([status, dateString])
+  @@index([errorType])
 }

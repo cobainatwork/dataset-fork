@@ -1873,5 +1873,45 @@
     "detailResults": "詳細結果",
     "left": "左",
     "right": "右"
+  },
+  "duplicates": {
+    "title": "重复问题",
+    "empty": "暂无重复",
+    "divergent": "答案分歧",
+    "badge": "重复 ×{{count}}",
+    "badgeLabel": "重复",
+    "badgeTooltip": "{{count}} 个重复问题",
+    "filter": {
+      "projectId": "项目 ID",
+      "minSize": "最小簇大小",
+      "onlyDivergent": "仅显示分歧"
+    }
+  },
+  "cluster": {
+    "info": {
+      "title": "簇信息",
+      "members": "{{count}} 个相似问题"
+    },
+    "feedback": {
+      "correct": "标记为正确",
+      "incorrect": "标记为错误",
+      "partial": "部分",
+      "thanks": "反馈已记录"
+    }
+  },
+  "embedding": {
+    "stats": {
+      "title": "嵌入统计",
+      "totalEmbedded": "已嵌入总数",
+      "totalClusters": "簇总数",
+      "crossProject": "跨项目",
+      "divergent": "分歧",
+      "latencies": "延迟百分位"
+    }
+  },
+  "trust": {
+    "title": "信任仪表盘",
+    "totalFeedback": "已记录 {{count}} 条反馈",
+    "suggestion": "建议阈値：{{threshold}}"
   }
 }

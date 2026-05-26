@@ -1850,5 +1850,45 @@
     "detailResults": "Resultados Detalhados",
     "left": "Esquerda",
     "right": "Direita"
+  },
+  "duplicates": {
+    "title": "Duplicatas",
+    "empty": "Sem duplicatas ainda",
+    "divergent": "Resposta divergente",
+    "badge": "Duplicata ×{{count}}",
+    "badgeLabel": "Duplicata",
+    "badgeTooltip": "{{count}} perguntas duplicadas",
+    "filter": {
+      "projectId": "ID do Projeto",
+      "minSize": "Tamanho mín. do cluster",
+      "onlyDivergent": "Mostrar apenas divergentes"
+    }
+  },
+  "cluster": {
+    "info": {
+      "title": "Info do cluster",
+      "members": "{{count}} perguntas similares"
+    },
+    "feedback": {
+      "correct": "Marcar como correto",
+      "incorrect": "Marcar como incorreto",
+      "partial": "Parcial",
+      "thanks": "Feedback registrado"
+    }
+  },
+  "embedding": {
+    "stats": {
+      "title": "Estat. de embedding",
+      "totalEmbedded": "Total embeddings",
+      "totalClusters": "Total clusters",
+      "crossProject": "Entre projetos",
+      "divergent": "Divergente",
+      "latencies": "Percentis de latência"
+    }
+  },
+  "trust": {
+    "title": "Painel de confiança",
+    "totalFeedback": "{{count}} feedbacks registrados",
+    "suggestion": "Limiar sugerido: {{threshold}}"
   }
 }
