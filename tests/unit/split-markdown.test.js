@@ -59,3 +59,35 @@ describe('splitMarkdown — chunk boundaries align to markdown headings', () => 
     }
   });
 });
+
+describe('splitLongSection — heading-like short line stays with next chunk', () => {
+  // 模擬實際 PDF 轉 HTML table 場景：無 markdown heading，含視覺章節分隔短句
+  const TABLE_A = '<table>' + '<tr><td>A 內容欄位</td></tr>'.repeat(40) + '</table>';
+  const TABLE_B = '<table>' + '<tr><td>B 內容欄位</td></tr>'.repeat(40) + '</table>';
+  const sample = `${TABLE_A}\n\n申請各項理賠給付應檢附文件\n\n${TABLE_B}`;
+  // max 設成略大於 TABLE_A 長度，迫使 splitter 在 TABLE_A 之後切
+  const max = TABLE_A.length + 50;
+  const chunks = splitMarkdown(sample, 10, max);
+
+  it('produces at least 2 chunks', () => {
+    expect(chunks.length).toBeGreaterThanOrEqual(2);
+  });
+
+  it('the short heading-like line stays with the next chunk, not the previous one', () => {
+    // 找到含「申請各項理賠給付應檢附文件」的 chunk
+    const containingChunks = chunks.filter(c => c.content.includes('申請各項理賠給付應檢附文件'));
+    expect(containingChunks.length).toBe(1);
+    const chunk = containingChunks[0];
+
+    // 該行應該在 chunk 的開頭區（不是尾巴）
+    const lines = chunk.content.split(/\n+/).map(l => l.trim()).filter(Boolean);
+    const idx = lines.findIndex(l => l === '申請各項理賠給付應檢附文件');
+    expect(idx).toBeGreaterThanOrEqual(0);
+
+    // assertion 重點：該短行不應是 chunk 尾巴
+    expect(idx).toBeLessThan(lines.length - 1);
+
+    // 且該短行之後應該緊接著 <table>（內容）
+    expect(lines.slice(idx + 1).join(' ')).toContain('<table>');
+  });
+});
