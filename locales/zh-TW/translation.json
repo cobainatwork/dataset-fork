@@ -1876,16 +1876,56 @@
   },
   "duplicates": {
     "title": "重複問題",
-    "empty": "目前沒有重複問題",
+    "empty": "目前沒有偵測到重複問題群組",
     "divergent": "答案分歧",
     "badge": "重複 ×{{count}}",
     "badgeLabel": "重複",
     "badgeTooltip": "{{count}} 個重複問題",
     "filter": {
       "projectId": "專案 ID",
-      "minSize": "最小群集大小",
-      "onlyDivergent": "僅顯示分歧"
-    }
+      "project": "專案",
+      "allProjects": "全部專案",
+      "minSize": "最少幾筆才視為重複",
+      "onlyDivergent": "只看答案不一致"
+    },
+    "similarCount": "{{count}} 筆相似問題",
+    "unknownProject": "未知專案",
+    "belongsToProject": "所屬專案：{{name}}",
+    "belongsToProjectShort": "所屬專案",
+    "crossProjects": "跨 {{count}} 個專案：{{names}}",
+    "crossProjectsManyShort": "跨 {{count}} 個專案",
+    "avgSim": "平均相似度 {{pct}}%",
+    "answerDivergent": "答案不一致",
+    "answerConsistent": "答案一致",
+    "divergentNotice": "此群組內的答案不一致，請特別小心處理。建議先檢視各筆答案、再決定是否合併或修正，不建議直接刪除。",
+    "reviewSection": "審查回饋",
+    "reviewHint": "你的回饋會用來校準系統閾值（不會動到任何問題資料）。",
+    "verdict": {
+      "correct": "真重複",
+      "incorrect": "系統誤判",
+      "partial": "部分相似"
+    },
+    "feedbackThanks": "已記錄，感謝你的回饋",
+    "memberLabel": "第 {{n}} 筆問題",
+    "primaryHint": "（系統挑選為群組代表）",
+    "similarityWithFirst": "與第 1 筆相似 {{pct}}%",
+    "sourceFile": "來源檔案",
+    "sourceChunk": "來源段落",
+    "createdAt": "建立時間",
+    "answerLabel": "答案",
+    "answerConfirmed": "已確認",
+    "answerNotConfirmed": "尚未確認",
+    "answerDivergentFlag": "與群組答案分歧",
+    "answerNone": "尚未產生答案",
+    "viewOrEdit": "前往編輯／檢視",
+    "deleteThis": "刪除這筆",
+    "deleteLocked": "刪除已鎖定",
+    "deleteLock": {
+      "divergent": "此群組答案不一致，刪除會破壞分歧資料分析。請至問題管理頁人工處理。",
+      "confirmed": "此問題的答案已確認，請至問題管理頁檢視後再決定是否刪除。"
+    },
+    "confirmDeleteTitle": "確認刪除這筆問題？",
+    "confirmDeleteBody": "刪除後將同時清除此問題的向量資料與群組關聯，且不可復原。"
   },
   "cluster": {
     "info": {

@@ -2,6 +2,7 @@ const {
   decideClusterAssignment,
   computeAvgSimilarity,
   promoteNewPrimary,
+  decideClusterUpdateOnMemberRemoval,
 } = require('@/lib/services/embedding/domain/cluster');
 
 describe('cluster domain', () => {
@@ -55,6 +56,40 @@ describe('cluster domain', () => {
         { id: 'q2', createAt: new Date('2026-01-02') },
       ];
       expect(promoteNewPrimary(members)).toBe('q1');
+    });
+  });
+
+  describe('decideClusterUpdateOnMemberRemoval', () => {
+    it('returns shouldDelete=true when size will drop to 0', () => {
+      const r = decideClusterUpdateOnMemberRemoval({ size: 1 });
+      expect(r.shouldDelete).toBe(true);
+      expect(r.newSize).toBe(0);
+    });
+
+    it('returns shouldDelete=false and newSize-1 when size > 1', () => {
+      const r = decideClusterUpdateOnMemberRemoval({ size: 3 });
+      expect(r.shouldDelete).toBe(false);
+      expect(r.newSize).toBe(2);
+    });
+
+    it('handles size=2 by reducing to 1 (still keep cluster)', () => {
+      const r = decideClusterUpdateOnMemberRemoval({ size: 2 });
+      expect(r.shouldDelete).toBe(false);
+      expect(r.newSize).toBe(1);
+    });
+
+    it('handles invalid size=0 defensively (shouldDelete=true)', () => {
+      expect(decideClusterUpdateOnMemberRemoval({ size: 0 })).toEqual({
+        shouldDelete: true,
+        newSize: 0,
+      });
+    });
+
+    it('clamps negative size to 0 (defensive against double-delete races)', () => {
+      expect(decideClusterUpdateOnMemberRemoval({ size: -1 })).toEqual({
+        shouldDelete: true,
+        newSize: 0,
+      });
     });
   });
 });

@@ -24,5 +24,23 @@ export async function GET(request) {
     },
   });
 
-  return NextResponse.json({ clusters });
+  // ClusterProject.projectId 是純字串、沒 relation 到 Projects → 另查名稱對照
+  const projectIds = [...new Set(clusters.flatMap(c => c.ClusterProject.map(cp => cp.projectId)))];
+  const projects = projectIds.length
+    ? await db.projects.findMany({
+        where: { id: { in: projectIds } },
+        select: { id: true, name: true },
+      })
+    : [];
+  const nameById = Object.fromEntries(projects.map(p => [p.id, p.name]));
+
+  const enriched = clusters.map(c => ({
+    ...c,
+    projectNames: c.ClusterProject.map(cp => ({
+      id: cp.projectId,
+      name: nameById[cp.projectId] || cp.projectId,
+    })),
+  }));
+
+  return NextResponse.json({ clusters: enriched });
 }
