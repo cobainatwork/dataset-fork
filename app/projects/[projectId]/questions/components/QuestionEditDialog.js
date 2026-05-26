@@ -18,6 +18,7 @@ import {
   MenuItem
 } from '@mui/material';
 import axios from 'axios';
+import ClusterInfoSidebar from '@/components/ClusterInfoSidebar';
 
 export default function QuestionEditDialog({
   open,
@@ -202,6 +203,10 @@ export default function QuestionEditDialog({
                 <MuiTextField {...params} label={t('questions.selectTag')} placeholder={t('questions.searchTag')} />
               )}
             />
+          )}
+
+          {mode === 'edit' && initialData?.clusterId && (
+            <ClusterInfoSidebar clusterId={initialData.clusterId} />
           )}
         </Box>
       </DialogContent>
