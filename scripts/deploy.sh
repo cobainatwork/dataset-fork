@@ -22,7 +22,19 @@ git pull --ff-only
 echo "[2/3] docker build -t easy-dataset:local ."
 docker build -t easy-dataset:local .
 
-echo "[3/3] docker compose up -d"
-docker compose up -d
+echo "[3/4] docker compose up -d (force-recreate easy-dataset for new image)"
+docker compose up -d postgres
+docker compose up -d --force-recreate easy-dataset
+
+echo "[4/4] Waiting for app HTTP readiness..."
+for i in $(seq 1 30); do
+  code=$(curl -s -o /dev/null -w "%{http_code}" "http://localhost:${PORT:-1717}/api/projects" || echo "000")
+  if [ "$code" = "200" ]; then
+    echo "App responding HTTP 200 after ${i}s"
+    break
+  fi
+  sleep 1
+done
 
 echo "Deploy complete. Service: http://localhost:${PORT:-1717}"
+echo "Next: scripts/linux-verify-dedup.sh to smoke the dedup feature."
