@@ -3,6 +3,7 @@ const {
   computeAvgSimilarity,
   promoteNewPrimary,
   decideClusterUpdateOnMemberRemoval,
+  computeNextAvgSimilarity,
 } = require('@/lib/services/embedding/domain/cluster');
 
 describe('cluster domain', () => {
@@ -90,6 +91,26 @@ describe('cluster domain', () => {
         shouldDelete: true,
         newSize: 0,
       });
+    });
+  });
+
+  describe('computeNextAvgSimilarity', () => {
+    it('first member sets avg to its own similarity (primary-only cluster has avg 0)', () => {
+      // cluster currently has only primary (size 1, avg 0); attach 1st member sim 0.882
+      const r = computeNextAvgSimilarity({ currentAvg: 0, currentSize: 1, newSimilarity: 0.882 });
+      expect(r).toBeCloseTo(0.882);
+    });
+
+    it('second member averages with existing member similarity', () => {
+      // size 2 (primary + 1 member avg 0.882); attach 2nd member sim 0.90
+      const r = computeNextAvgSimilarity({ currentAvg: 0.882, currentSize: 2, newSimilarity: 0.9 });
+      expect(r).toBeCloseTo((0.882 + 0.9) / 2);
+    });
+
+    it('third member keeps running average correct', () => {
+      // size 3 (primary + 2 members avg 0.891); attach 3rd member sim 0.6
+      const r = computeNextAvgSimilarity({ currentAvg: 0.891, currentSize: 3, newSimilarity: 0.6 });
+      expect(r).toBeCloseTo((0.891 * 2 + 0.6) / 3);
     });
   });
 });
