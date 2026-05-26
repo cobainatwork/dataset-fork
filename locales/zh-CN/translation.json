@@ -4,7 +4,7 @@
     "switchToChinese": "切換到中文",
     "switcherTitle": "切換語言 / Change Language / Dil Değiştir",
     "english": "English",
-    "chineseSimplified": "簡體中文",
+    "chineseSimplified": "中文",
     "turkish": "Türkçe",
     "en": "EN",
     "zh": "中"
@@ -1875,43 +1875,43 @@
     "right": "右"
   },
   "duplicates": {
-    "title": "重复问题",
-    "empty": "暂无重复",
+    "title": "重複問題",
+    "empty": "目前沒有重複問題",
     "divergent": "答案分歧",
-    "badge": "重复 ×{{count}}",
-    "badgeLabel": "重复",
-    "badgeTooltip": "{{count}} 个重复问题",
+    "badge": "重複 ×{{count}}",
+    "badgeLabel": "重複",
+    "badgeTooltip": "{{count}} 個重複問題",
     "filter": {
-      "projectId": "项目 ID",
-      "minSize": "最小簇大小",
-      "onlyDivergent": "仅显示分歧"
+      "projectId": "專案 ID",
+      "minSize": "最小群集大小",
+      "onlyDivergent": "僅顯示分歧"
     }
   },
   "cluster": {
     "info": {
-      "title": "簇信息",
-      "members": "{{count}} 个相似问题"
+      "title": "群集資訊",
+      "members": "{{count}} 個相似問題"
     },
     "feedback": {
-      "correct": "标记为正确",
-      "incorrect": "标记为错误",
-      "partial": "部分",
-      "thanks": "反馈已记录"
+      "correct": "標記為正確",
+      "incorrect": "標記為錯誤",
+      "partial": "部分相關",
+      "thanks": "回饋已記錄"
     }
   },
   "embedding": {
     "stats": {
-      "title": "嵌入统计",
-      "totalEmbedded": "已嵌入总数",
-      "totalClusters": "簇总数",
-      "crossProject": "跨项目",
+      "title": "嵌入統計",
+      "totalEmbedded": "已嵌入總數",
+      "totalClusters": "群集總數",
+      "crossProject": "跨專案",
       "divergent": "分歧",
-      "latencies": "延迟百分位"
+      "latencies": "延遲百分位"
     }
   },
   "trust": {
-    "title": "信任仪表盘",
-    "totalFeedback": "已记录 {{count}} 条反馈",
-    "suggestion": "建议阈値：{{threshold}}"
+    "title": "信任儀表板",
+    "totalFeedback": "已記錄 {{count}} 筆回饋",
+    "suggestion": "建議閾值：{{threshold}}"
   }
 }
