@@ -43,6 +43,7 @@ import { selectedModelInfoAtom } from '@/lib/store';
 import MarkdownViewDialog from '../MarkdownViewDialog';
 import GaPairsIndicator from '../../mga/GaPairsIndicator';
 import DomainTreeActionDialog from './DomainTreeActionDialog';
+import ReplaceFileButton from './ReplaceFileButton';
 import i18n from '@/lib/i18n';
 import { toast } from 'sonner';
 
@@ -833,6 +834,11 @@ export default function FileList({
                         <Download />
                       </IconButton>
                     </Tooltip>
+                    <ReplaceFileButton
+                      projectId={projectId}
+                      file={file}
+                      onReplaced={() => typeof onRefresh === 'function' ? onRefresh() : onPageChange?.(1)}
+                    />
                     <Tooltip title={t('textSplit.deleteFile')}>
                       <IconButton color="error" onClick={() => onDeleteFile(file.id, file.fileName)}>
                         <DeleteIcon />
