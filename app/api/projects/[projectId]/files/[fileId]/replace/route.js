@@ -47,6 +47,7 @@ export async function POST(request, { params }) {
     return NextResponse.json({
       message: 'File replaced successfully',
       newFileId: result.newFileId,
+      fileName,
       cleared: result.clearedStats,
     });
   } catch (error) {

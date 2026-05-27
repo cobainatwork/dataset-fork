@@ -207,6 +207,31 @@ export default function FileUploader({
     }
   };
 
+  /**
+   * 替換檔案並觸發 file-processing 任務（分塊）
+   */
+  const handleReplaceRequested = async (targetFile, newFile) => {
+    setUploading(true);
+    try {
+      const { fileContent, fileName } = await getContent(newFile);
+      const data = await fileApi.replaceFile({ projectId, oldFileId: targetFile.id, file: newFile, fileContent, fileName, t });
+      toast.success(t('textSplit.replaceSuccess'));
+      setCurrentPage(1);
+      await fetchUploadedFiles();
+      if (onUploadSuccess) {
+        await onUploadSuccess(
+          [{ fileName: data.fileName, fileId: data.newFileId }],
+          newFile.name.toLowerCase().endsWith('.pdf') ? [newFile] : [],
+          'keep'
+        );
+      }
+    } catch (err) {
+      toast.error(err.message || t('textSplit.replaceFailed'));
+    } finally {
+      setUploading(false);
+    }
+  };
+
   // 開啟刪除確認對話方塊
   const openDeleteConfirm = (fileId, fileName) => {
     setFileToDelete({ fileId, fileName });
@@ -322,6 +347,7 @@ export default function FileUploader({
                   }
                 }}
                 onRefresh={fetchUploadedFiles} // 傳遞重新整理函式
+                onReplaceRequested={handleReplaceRequested}
               />
             </Grid>
           </Grid>

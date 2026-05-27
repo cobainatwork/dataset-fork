@@ -58,7 +58,8 @@ export default function FileList({
   currentPage = 1,
   onPageChange,
   onRefresh, // 新增：重新整理檔案列表的回撥函式
-  isFullscreen = false // 新增引數，用於控制是否處於全屏狀態
+  isFullscreen = false, // 新增引數，用於控制是否處於全屏狀態
+  onReplaceRequested // 新增：替換檔案的回撥函式（由 FileUploader 提供）
 }) {
   const { t } = useTranslation();
 
@@ -835,9 +836,8 @@ export default function FileList({
                       </IconButton>
                     </Tooltip>
                     <ReplaceFileButton
-                      projectId={projectId}
                       file={file}
-                      onReplaced={() => typeof onRefresh === 'function' ? onRefresh() : onPageChange?.(1)}
+                      onReplaceRequested={onReplaceRequested}
                     />
                     <Tooltip title={t('textSplit.deleteFile')}>
                       <IconButton color="error" onClick={() => onDeleteFile(file.id, file.fileName)}>

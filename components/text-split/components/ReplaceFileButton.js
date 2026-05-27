@@ -3,38 +3,25 @@ import { useRef, useState } from 'react';
 import { IconButton, Tooltip, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@mui/material';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'sonner';
-import { replaceFile } from '@/lib/api/file';
 
-export default function ReplaceFileButton({ projectId, file, onReplaced }) {
+export default function ReplaceFileButton({ file, onReplaceRequested }) {
   const { t } = useTranslation();
   const inputRef = useRef(null);
   const [pending, setPending] = useState(null);
-  const [busy, setBusy] = useState(false);
 
   function pickFile() { inputRef.current?.click(); }
 
-  async function onFileChosen(e) {
+  function onFileChosen(e) {
     const f = e.target.files?.[0];
     e.target.value = '';
     if (!f) return;
-    const content = await f.arrayBuffer();
-    setPending({ file: f, content, name: f.name });
+    setPending({ file: f, name: f.name });
   }
 
-  async function confirmReplace() {
+  function confirmReplace() {
     if (!pending) return;
-    setBusy(true);
-    try {
-      await replaceFile({ projectId, oldFileId: file.id, file: pending.file, fileContent: pending.content, fileName: pending.name, t });
-      toast.success(t('textSplit.replaceSuccess'));
-      setPending(null);
-      onReplaced?.();
-    } catch (err) {
-      toast.error(err.message || t('textSplit.replaceFailed'));
-    } finally {
-      setBusy(false);
-    }
+    onReplaceRequested?.(file, pending.file);
+    setPending(null);
   }
 
   return (
@@ -45,7 +32,7 @@ export default function ReplaceFileButton({ projectId, file, onReplaced }) {
         </IconButton>
       </Tooltip>
       <input ref={inputRef} type="file" accept=".md,.pdf" hidden onChange={onFileChosen} />
-      <Dialog open={!!pending} onClose={() => !busy && setPending(null)}>
+      <Dialog open={!!pending} onClose={() => setPending(null)}>
         <DialogTitle>{t('textSplit.replaceConfirmTitle')}</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -53,8 +40,8 @@ export default function ReplaceFileButton({ projectId, file, onReplaced }) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setPending(null)} disabled={busy}>{t('common.cancel')}</Button>
-          <Button color="warning" variant="contained" onClick={confirmReplace} disabled={busy}>
+          <Button onClick={() => setPending(null)}>{t('common.cancel')}</Button>
+          <Button color="warning" variant="contained" onClick={confirmReplace}>
             {t('textSplit.replaceConfirmAction')}
           </Button>
         </DialogActions>
