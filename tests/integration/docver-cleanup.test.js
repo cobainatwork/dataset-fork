@@ -13,19 +13,24 @@ async function seedFileWithDerived({ projectId, fileId, questionId, datasetId, c
     `INSERT INTO "Embeddings"("id","sourceType","sourceId","vector","modelName","dimension","createAt") VALUES ($1,$2,$3,$4::vector,$5,$6,NOW())`,
     `question_${questionId}`, 'question', questionId, `[${new Array(1024).fill(0.1).join(',')}]`, 'm', 1024,
   );
+  await prisma.$executeRawUnsafe(
+    `INSERT INTO "Embeddings"("id","sourceType","sourceId","vector","modelName","dimension","createAt") VALUES ($1,$2,$3,$4::vector,$5,$6,NOW())`,
+    `answer_${datasetId}`, 'answer', datasetId, `[${new Array(1024).fill(0.2).join(',')}]`, 'm', 1024,
+  );
 }
 
 describe('delUploadFileInfoById cleanup (docver)', () => {
   const ids = { projectId: 'p_docver', fileId: 'f_docver', questionId: 'q_docver', datasetId: 'd_docver', clusterId: 'cl_docver' };
 
   afterEach(async () => {
-    await prisma.$executeRawUnsafe(`DELETE FROM "Embeddings" WHERE "sourceId" IN ('${ids.questionId}','${ids.datasetId}')`);
+    await prisma.embeddings.deleteMany({ where: { sourceId: { in: [ids.questionId, ids.datasetId] } } });
     await prisma.datasets.deleteMany({ where: { projectId: ids.projectId } });
     await prisma.questions.deleteMany({ where: { projectId: ids.projectId } });
     await prisma.chunks.deleteMany({ where: { projectId: ids.projectId } });
     await prisma.clusterProject.deleteMany({ where: { projectId: ids.projectId } });
     await prisma.questionCluster.deleteMany({ where: { id: ids.clusterId } });
     await prisma.uploadFiles.deleteMany({ where: { projectId: ids.projectId } });
+    await prisma.projects.deleteMany({ where: { id: ids.projectId } });
   });
   afterAll(() => prisma.$disconnect());
 
@@ -34,7 +39,7 @@ describe('delUploadFileInfoById cleanup (docver)', () => {
     const { delUploadFileInfoById } = require('@/lib/db/upload-files');
     await delUploadFileInfoById(ids.fileId);
     const remaining = await prisma.$queryRawUnsafe(
-      `SELECT COUNT(*)::int AS n FROM "Embeddings" WHERE "sourceId" = $1`, ids.questionId
+      `SELECT COUNT(*)::int AS n FROM "Embeddings" WHERE "sourceId" IN ($1,$2)`, ids.questionId, ids.datasetId
     );
     expect(remaining[0].n).toBe(0);
   });
