@@ -29,6 +29,7 @@ describe('delUploadFileInfoById cleanup (docver)', () => {
     await prisma.chunks.deleteMany({ where: { projectId: ids.projectId } });
     await prisma.clusterProject.deleteMany({ where: { projectId: ids.projectId } });
     await prisma.questionCluster.deleteMany({ where: { id: ids.clusterId } });
+    await prisma.documentReplacement.deleteMany({ where: { projectId: ids.projectId } });
     await prisma.uploadFiles.deleteMany({ where: { projectId: ids.projectId } });
     await prisma.projects.deleteMany({ where: { id: ids.projectId } });
   });
@@ -42,5 +43,31 @@ describe('delUploadFileInfoById cleanup (docver)', () => {
       `SELECT COUNT(*)::int AS n FROM "Embeddings" WHERE "sourceId" IN ($1,$2)`, ids.questionId, ids.datasetId
     );
     expect(remaining[0].n).toBe(0);
+  });
+
+  it('cluster-maintenance removes a cluster whose only member was deleted', async () => {
+    await seedFileWithDerived(ids);
+    const { delUploadFileInfoById } = require('@/lib/db/upload-files');
+    await delUploadFileInfoById(ids.fileId);
+    // 直接跑 maintenance handler（繞過非同步派發的時序）
+    const { processClusterMaintenanceTask } = require('@/lib/services/tasks/cluster-maintenance');
+    await processClusterMaintenanceTask({});
+    const c = await prisma.questionCluster.findUnique({ where: { id: ids.clusterId } });
+    expect(c).toBeNull();
+  });
+
+  it('replaceUploadFile keeps lineageId and records replacement', async () => {
+    await seedFileWithDerived(ids);
+    const { replaceUploadFile } = require('@/lib/db/upload-files');
+    const res = await replaceUploadFile(ids.fileId, { fileName: 'f2.md', size: 2, md5: 'y', fileExt: '.md', path: '/tmp' });
+    const newFile = await prisma.uploadFiles.findUnique({ where: { id: res.newFileId } });
+    expect(newFile.lineageId).toBe(ids.fileId);          // 沿用舊檔 lineageId（= 舊檔 id）
+    const old = await prisma.uploadFiles.findUnique({ where: { id: ids.fileId } });
+    expect(old).toBeNull();                               // 舊檔已清除
+    const rec = await prisma.documentReplacement.findFirst({ where: { lineageId: ids.fileId } });
+    expect(rec?.newFileId).toBe(res.newFileId);
+    // 收尾
+    await prisma.documentReplacement.deleteMany({ where: { lineageId: ids.fileId } });
+    await prisma.uploadFiles.deleteMany({ where: { id: res.newFileId } });
   });
 });
