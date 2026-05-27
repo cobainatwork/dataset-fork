@@ -1874,6 +1874,11 @@
     "left": "左",
     "right": "右"
   },
+  "nav": {
+    "goToProject": "前往專案",
+    "selectProjectHint": "選擇要進入的專案",
+    "noProjects": "尚無專案"
+  },
   "systemTools": {
     "title": "系統工具",
     "monitoring": "資源監控",

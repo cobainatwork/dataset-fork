@@ -23,6 +23,7 @@ import * as styles from './styles';
 import Logo from './Logo';
 import ActionButtons from './ActionButtons';
 import NavigationTabs from './NavigationTabs';
+import ProjectPicker from './ProjectPicker';
 import MobileDrawer from './MobileDrawer';
 import DesktopMenus from './DesktopMenus';
 import ContextBar from './ContextBar';
@@ -193,6 +194,11 @@ export default function Navbar({ projects = [], currentProject }) {
               handleMenuClose={handleMenuClose}
               onNavigateStart={handleNavigateStart}
             />
+          )}
+
+          {/* 全域頁面（無當前專案）顯示「前往專案」選擇器 */}
+          {!isProjectDetail && !isMobile && (
+            <ProjectPicker projects={projects} onNavigateStart={handleNavigateStart} />
           )}
 
           {/* 右側操作區 */}
