@@ -18,7 +18,7 @@ export default function ReplaceFileButton({ projectId, file, onReplaced }) {
     const f = e.target.files?.[0];
     e.target.value = '';
     if (!f) return;
-    const content = await f.text();
+    const content = await f.arrayBuffer();
     setPending({ file: f, content, name: f.name });
   }
 
