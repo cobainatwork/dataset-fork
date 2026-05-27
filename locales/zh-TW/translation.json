@@ -1874,6 +1874,12 @@
     "left": "左",
     "right": "右"
   },
+  "systemTools": {
+    "title": "系統工具",
+    "monitoring": "資源監控",
+    "duplicates": "重複問題",
+    "trust": "去重信心度"
+  },
   "duplicates": {
     "title": "重複問題",
     "empty": "目前沒有偵測到重複問題群組",
