@@ -523,7 +523,13 @@
       "rebuildDesc": "Crea un nuovo albero basato su tutti i documenti",
       "keepOption": "Mantieni invariato",
       "keepDesc": "Mantieni l'attuale struttura dell'albero del dominio"
-    }
+    },
+    "replaceVersion": "Sostituisci con nuova versione",
+    "replaceConfirmTitle": "Sostituisci versione documento",
+    "replaceConfirmBody": "Sostituire \"{{oldName}}\" con \"{{newName}}\" ed eliminare definitivamente tutte le domande e i set di dati esistenti (inclusi quelli confermati) per questo file. Sarà necessario ri-segmentare e rigenerare in seguito. Continuare?",
+    "replaceConfirmAction": "Sostituisci",
+    "replaceSuccess": "File sostituito. Si prega di ri-segmentare e rigenerare.",
+    "replaceFailed": "Sostituzione del file fallita"
   },
   "domain": {
     "title": "Albero della conoscenza del campo",

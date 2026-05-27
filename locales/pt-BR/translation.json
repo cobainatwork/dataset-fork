@@ -519,7 +519,13 @@
       "rebuildDesc": "Regenerar a árvore de domínio completa com base nas informações de diretório de todos os arquivos",
       "keepOption": "Manter Inalterado",
       "keepDesc": "Manter a estrutura atual da árvore de domínio inalterada, sem fazer modificações"
-    }
+    },
+    "replaceVersion": "Substituir pela nova versão",
+    "replaceConfirmTitle": "Substituir versão do documento",
+    "replaceConfirmBody": "Substituir \"{{oldName}}\" por \"{{newName}}\" e excluir permanentemente todas as perguntas e conjuntos de dados existentes (incluindo os confirmados) para este arquivo. Você precisará rechunkar e regenerar depois. Continuar?",
+    "replaceConfirmAction": "Substituir",
+    "replaceSuccess": "Arquivo substituído. Por favor, rechunke e regenere.",
+    "replaceFailed": "Falha ao substituir o arquivo"
   },
   "domain": {
     "title": "Árvore de Conhecimento de Domínio",

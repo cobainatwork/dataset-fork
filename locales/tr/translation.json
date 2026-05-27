@@ -535,7 +535,13 @@
       "rebuildDesc": "Tüm belge içeriklerine göre tamamen yeni bir alan ağacı oluştur",
       "keepOption": "Değiştirme",
       "keepDesc": "Mevcut alan ağacı yapısını değiştirmeden koru"
-    }
+    },
+    "replaceVersion": "Yeni sürümle değiştir",
+    "replaceConfirmTitle": "Belge sürümünü değiştir",
+    "replaceConfirmBody": "\"{{oldName}}\" dosyasını \"{{newName}}\" ile değiştirin ve bu dosya için mevcut tüm soruları ve veri kümelerini (onaylananlar dahil) kalıcı olarak silin. Daha sonra yeniden parçalamanız ve yeniden oluşturmanız gerekecek. Devam edilsin mi?",
+    "replaceConfirmAction": "Değiştir",
+    "replaceSuccess": "Dosya değiştirildi. Lütfen yeniden parçalayın ve yeniden oluşturun.",
+    "replaceFailed": "Dosya değiştirme başarısız"
   },
   "domain": {
     "title": "Alan Bilgi Ağacı",

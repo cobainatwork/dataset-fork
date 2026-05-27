@@ -528,7 +528,13 @@
       "rebuildDesc": "Generate a completely new domain tree based on all document contents",
       "keepOption": "Keep Unchanged",
       "keepDesc": "Keep the current domain tree structure unchanged without any modifications"
-    }
+    },
+    "replaceVersion": "Replace with new version",
+    "replaceConfirmTitle": "Replace document version",
+    "replaceConfirmBody": "Replace \"{{oldName}}\" with \"{{newName}}\" and permanently delete all existing questions and datasets (including confirmed ones) for this file. You will need to re-chunk and regenerate afterwards. Continue?",
+    "replaceConfirmAction": "Replace",
+    "replaceSuccess": "File replaced. Please re-chunk and regenerate.",
+    "replaceFailed": "File replace failed"
   },
   "domain": {
     "title": "Domain Knowledge Tree",

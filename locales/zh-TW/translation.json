@@ -524,7 +524,13 @@
       "rebuildDesc": "基於所有檔案的目錄資訊重新生成完整的領域樹",
       "keepOption": "保持不變",
       "keepDesc": "保持當前領域樹結構不變，不做任何修改"
-    }
+    },
+    "replaceVersion": "上傳新版本替換",
+    "replaceConfirmTitle": "替換文件版本",
+    "replaceConfirmBody": "將以「{{newName}}」替換「{{oldName}}」，並清除此文件既有的全部問題與資料集（含已驗收），且無法復原。替換後需重新切塊與產生問答。確定要替換嗎？",
+    "replaceConfirmAction": "確認替換",
+    "replaceSuccess": "文件已替換，請重新切塊並產生問答",
+    "replaceFailed": "文件替換失敗"
   },
   "domain": {
     "title": "領域知識樹",
