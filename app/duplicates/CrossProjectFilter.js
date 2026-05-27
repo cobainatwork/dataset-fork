@@ -1,5 +1,4 @@
 'use client';
-import { useEffect, useState } from 'react';
 import {
   Box,
   FormControlLabel,
@@ -12,16 +11,8 @@ import {
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
-export default function CrossProjectFilter({ value, onChange }) {
+export default function CrossProjectFilter({ value, onChange, projects = [] }) {
   const { t } = useTranslation();
-  const [projects, setProjects] = useState([]);
-
-  useEffect(() => {
-    fetch('/api/projects')
-      .then(r => (r.ok ? r.json() : []))
-      .then(data => setProjects(Array.isArray(data) ? data : []))
-      .catch(() => setProjects([]));
-  }, []);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>

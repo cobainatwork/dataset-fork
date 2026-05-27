@@ -26,7 +26,7 @@ export default function DuplicatesPage() {
           <Typography variant="h6" sx={{ mb: 2 }}>
             {t('duplicates.title')}
           </Typography>
-          <CrossProjectFilter value={filters} onChange={setFilters} />
+          <CrossProjectFilter value={filters} onChange={setFilters} projects={projects} />
         </Box>
         <Box sx={{ flex: 1, overflow: 'auto' }}>
           <ClusterCardList filters={filters} />
