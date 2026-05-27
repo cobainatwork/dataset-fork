@@ -1,5 +1,9 @@
+const nextJest = require('next/jest');
+
+const createJestConfig = nextJest({ dir: './' });
+
 /** @type {import('jest').Config} */
-module.exports = {
+const customJestConfig = {
   testEnvironment: 'node',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testMatch: ['<rootDir>/tests/**/*.test.js'],
@@ -9,3 +13,5 @@ module.exports = {
   testPathIgnorePatterns: ['/node_modules/', '/.next/', '/dist/'],
   collectCoverageFrom: ['lib/services/embedding/**/*.js', '!**/node_modules/**']
 };
+
+module.exports = createJestConfig(customJestConfig);
