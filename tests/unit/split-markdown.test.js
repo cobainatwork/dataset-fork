@@ -96,4 +96,45 @@ ${longContent}
       expect(lines.slice(idx + 1).join(' ')).toContain('<table>');
     });
   });
+
+  describe('minSplitLength brake: stops greedy merging across substantial top-level sections', () => {
+    // Build 3 substantial sections; each section's body alone is ~3600 chars
+    // (so the section block including heading is comfortably > 2500 = min).
+    const body = '這是章節的內容文字段落。'.repeat(300); // ~3600 chars
+    const SAMPLE = `# 五、傳承富足利率變動型終身壽險
+${body}
+
+# 六、金福利利率變動型終身壽險
+${body}
+
+# 七、金得利利率變動型增額終身壽險
+${body}
+`;
+    const MIN = 2500;
+    const MAX = 15000;
+    const chunks = splitMarkdown(SAMPLE, MIN, MAX);
+
+    it('produces one chunk per top-level section (3 chunks, not 1 or 2)', () => {
+      expect(chunks.length).toBe(3);
+    });
+
+    it('each chunk contains exactly one of the three section headings', () => {
+      const headings = ['# 五、傳承富足利率變動型終身壽險', '# 六、金福利利率變動型終身壽險', '# 七、金得利利率變動型增額終身壽險'];
+      for (const h of headings) {
+        const matches = chunks.filter(c => c.content.includes(h));
+        expect(matches.length).toBe(1);
+      }
+    });
+
+    it('still merges a tiny dangling section (< min) into its neighbour', () => {
+      const big = '長段內容文字。'.repeat(400); // ~2800 chars > 2500
+      const tiny = '附註：本條款適用全部產品。'; // very short, < 2500
+      const text = `# A 章\n${big}\n\n# 附註\n${tiny}\n`;
+      const r = splitMarkdown(text, 2500, 12000);
+      // tiny section should NOT become its own chunk; brake only fires when
+      // the NEXT section is also >= min.
+      expect(r.length).toBe(1);
+      expect(r[0].content).toContain('附註');
+    });
+  });
 });
