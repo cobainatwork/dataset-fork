@@ -11,7 +11,7 @@ const customJestConfig = {
     '^@/(.*)$': '<rootDir>/$1'
   },
   testPathIgnorePatterns: ['/node_modules/', '/.next/', '/dist/'],
-  collectCoverageFrom: ['lib/services/embedding/**/*.js', '!**/node_modules/**']
+  collectCoverageFrom: ['lib/services/embedding/**/*.js', '!**/node_modules/**'],
 };
 
 module.exports = createJestConfig(customJestConfig);
