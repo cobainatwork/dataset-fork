@@ -202,6 +202,40 @@ ${body}
     });
   });
 
+  describe('mineru-style: consecutive empty-content headings must NOT drop heading text', () => {
+    // mineru 把 PDF 表格欄位轉成大量連續 #### 短 heading（彼此之間無實質
+    // content）。原邏輯 `if trimmedContent.length === 0 continue` 把這些
+    // sections 整段 skip，連 heading 文字一起吞掉，導致 chunks 漏內容。
+    const SAMPLE = `# 父章
+
+## 表格區段
+
+#### 投保年齡
+#### 16 歲~ 30 歲
+#### 31 歲~ 45 歲
+#### 46 歲~ 60 歲
+#### 基本保額(甲型)
+#### 100 萬元
+#### 200 萬元
+#### 300 萬元
+#### 基本保額(戊型)
+#### 50 萬元
+#### 80 萬元
+#### 120 萬元
+
+## 後段說明
+這是一般說明段落。`;
+    const chunks = splitMarkdown(SAMPLE, 100, 2500);
+    const all = chunks.map(c => c.content).join('\n');
+
+    it('contains the empty-content heading texts (no fragments dropped)', () => {
+      const tableFragments = ['投保年齡', '16 歲~ 30 歲', '31 歲~ 45 歲', '基本保額(甲型)', '100 萬元', '200 萬元', '基本保額(戊型)', '50 萬元', '120 萬元'];
+      for (const frag of tableFragments) {
+        expect(all).toContain(frag);
+      }
+    });
+  });
+
   describe('Chinese-numbered heading detection: false-positive guard', () => {
     it('does not treat inline "第五、" or "（五）" as section headings', () => {
       const body = '本條於 第五、 第六、 等款項中規定。'.repeat(200);
