@@ -70,4 +70,44 @@ describe('delUploadFileInfoById cleanup (docver)', () => {
     await prisma.documentReplacement.deleteMany({ where: { lineageId: ids.fileId } });
     await prisma.uploadFiles.deleteMany({ where: { id: res.newFileId } });
   });
+
+  it('replaceUploadFile preserves the new physical file when it collides with the old name', async () => {
+    // 同名替換：使用者拿同名 PDF 蓋舊版。replace API 已把新檔寫到 path/fileName，
+    // 此時 replaceUploadFile 清理舊 row 時不可把同路徑同名的實體檔當「舊檔」刪掉。
+    const os = require('os');
+    const fsp = require('fs').promises;
+    const path = require('path');
+    const tmpDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'docver-fs-'));
+    const sharedName = 'same.md';
+    const sharedFilePath = path.join(tmpDir, sharedName);
+
+    try {
+      // Seed 舊 row（path 指向真實 tmp 目錄）
+      await prisma.projects.upsert({ where: { id: ids.projectId }, create: { id: ids.projectId, name: 'T', description: '' }, update: {} });
+      await prisma.uploadFiles.create({
+        data: { id: ids.fileId, projectId: ids.projectId, fileName: sharedName, fileExt: '.md', path: tmpDir, size: 5, md5: 'old', lineageId: ids.fileId },
+      });
+      // 模擬 replace API 已寫入的新檔（同 path 同名）
+      const newContent = 'BRAND NEW CONTENT';
+      await fsp.writeFile(sharedFilePath, newContent);
+
+      // Act：呼叫 replaceUploadFile
+      const { replaceUploadFile } = require('@/lib/db/upload-files');
+      const res = await replaceUploadFile(ids.fileId, {
+        fileName: sharedName, size: newContent.length, md5: 'new', fileExt: '.md', path: tmpDir,
+      });
+
+      // Assert：實體檔仍存在且內容是新版
+      const stat = await fsp.stat(sharedFilePath);
+      expect(stat.size).toBe(newContent.length);
+      const read = await fsp.readFile(sharedFilePath, 'utf8');
+      expect(read).toBe(newContent);
+
+      // 收尾 DB
+      await prisma.documentReplacement.deleteMany({ where: { lineageId: ids.fileId } });
+      await prisma.uploadFiles.deleteMany({ where: { id: res.newFileId } });
+    } finally {
+      await fsp.rm(tmpDir, { recursive: true, force: true });
+    }
+  });
 });
