@@ -137,4 +137,86 @@ ${body}
       expect(r[0].content).toContain('附註');
     });
   });
+
+  describe('Chinese-numbered headings (no `#` prefix) act as section boundaries', () => {
+    const body = '這是章節的內容文字段落。'.repeat(300); // ~3600 chars
+    const SAMPLE = `五、 傳承富足利率變動型終身壽險(NTIW1202)
+
+${body}
+
+六、 金福利利率變動型終身壽險(NTIW1602)
+
+${body}
+
+七、 金得利利率變動型增額終身壽險(NTIW1502)
+
+${body}
+`;
+    const chunks = splitMarkdown(SAMPLE, 2500, 15000);
+
+    it('produces one chunk per Chinese-numbered section (3 chunks)', () => {
+      expect(chunks.length).toBe(3);
+    });
+
+    it('each Chinese-numbered heading appears in exactly one chunk', () => {
+      const headings = [
+        '五、 傳承富足利率變動型終身壽險(NTIW1202)',
+        '六、 金福利利率變動型終身壽險(NTIW1602)',
+        '七、 金得利利率變動型增額終身壽險(NTIW1502)'
+      ];
+      for (const h of headings) {
+        const matches = chunks.filter(c => c.content.includes(h));
+        expect(matches.length).toBe(1);
+      }
+    });
+  });
+
+  describe('Chinese-numbered headings: splitLongSection respects boundary inside oversized parent', () => {
+    // 整份文件無上層 # heading，但內含中文編號子章節；總長 > max 強制走
+    // splitLongSection 路徑。splitLongSection 必須在中文編號 heading 邊界處主動煞車。
+    const body = '段落內容文字。'.repeat(500); // ~3500 chars
+    const SAMPLE = `五、 第一章標題
+
+${body}
+
+六、 第二章標題
+
+${body}
+
+七、 第三章標題
+
+${body}
+`;
+    const chunks = splitMarkdown(SAMPLE, 1500, 5000);
+
+    it('produces >= 3 chunks (splitLongSection respects Chinese-numbered boundary)', () => {
+      expect(chunks.length).toBeGreaterThanOrEqual(3);
+    });
+
+    it('each Chinese-numbered heading appears in exactly one chunk', () => {
+      const headings = ['五、 第一章標題', '六、 第二章標題', '七、 第三章標題'];
+      for (const h of headings) {
+        const matches = chunks.filter(c => c.content.includes(h));
+        expect(matches.length).toBe(1);
+      }
+    });
+  });
+
+  describe('Chinese-numbered heading detection: false-positive guard', () => {
+    it('does not treat inline "第五、" or "（五）" as section headings', () => {
+      const body = '本條於 第五、 第六、 等款項中規定。'.repeat(200);
+      const SAMPLE = `# 條文摘要\n${body}\n`;
+      const r = splitMarkdown(SAMPLE, 1000, 20000);
+      // 全文 < max，必為 1 chunk；若 false-positive 把「第五、」當 heading 會切多塊
+      expect(r.length).toBe(1);
+    });
+
+    it('does not treat a long sentence starting with 一、 as heading', () => {
+      const longSentence = '一、 此句雖以中文編號開頭但其後跟著很長的論述內容因此不應視為章節標題只是行文上的列舉序號而已長度超過八十字。';
+      const trailing = '後續段落內容文字並足夠長以避免 detachTrailingHeading 干擾。'.repeat(20); // ~600 chars, 顯非 heading-like
+      const SAMPLE = `# 父章\n${longSentence}\n\n${trailing}`;
+      const r = splitMarkdown(SAMPLE, 1000, 20000);
+      expect(r.length).toBe(1);
+    });
+  });
 });
