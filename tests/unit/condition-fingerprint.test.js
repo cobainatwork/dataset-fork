@@ -62,6 +62,15 @@ describe('extractConditionFingerprint', () => {
     expect(extractConditionFingerprint('依 ２ 年期投保金福利')).toBe('term=2年');
   });
 
+  it('extracts age open band with 含 marker', () => {
+    expect(extractConditionFingerprint('依年齡 70 歲（含）以上條件')).toContain('70+');
+  });
+
+  it('extracts both amount range and open band in same text', () => {
+    const fp = extractConditionFingerprint('新臺幣 50 萬元至 100 萬元、及新臺幣 200 萬元以上');
+    expect(fp).toBe('amount=200w+,50w-100w');
+  });
+
   it('truncates excessively long canonical strings', () => {
     const longText = '依躉繳依 1 年期依 2 年期依 3 年期'.repeat(20);
     const fp = extractConditionFingerprint(longText);
