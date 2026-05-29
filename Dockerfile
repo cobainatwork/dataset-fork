@@ -72,6 +72,10 @@ COPY --from=builder /app/electron ./electron
 # 复制 prisma 目录到 image 內，含 schema 與 migrations
 COPY --from=builder /app/prisma /app/prisma
 
+# 复制维运脚本与脚本会用到的 lib 子模块（next.js standalone build 不打包它们）
+COPY --from=builder /app/scripts /app/scripts
+COPY --from=builder /app/lib /app/lib
+
 # 复制并设置 entrypoint 脚本（sed 去除 Windows 换行符 \r，防止 CRLF 导致 "no such file or directory"）
 COPY docker-entrypoint.sh /usr/local/bin/
 RUN sed -i 's/\r$//' /usr/local/bin/docker-entrypoint.sh && \
