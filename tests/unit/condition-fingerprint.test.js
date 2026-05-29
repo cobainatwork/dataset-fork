@@ -13,6 +13,30 @@ describe('extractConditionFingerprint', () => {
     expect(extractConditionFingerprint('依 2 年期繳費方式投保金福利，保費折扣率為何？')).toBe('term=2年');
   });
 
+  it('extracts payment-term: 月繳 with prefix', () => {
+    expect(extractConditionFingerprint('依月繳方式投保金福利，保費為何？')).toBe('term=月繳');
+  });
+
+  it('extracts payment-term: 季繳 with prefix', () => {
+    expect(extractConditionFingerprint('以季繳投保金福利，保費為何？')).toBe('term=季繳');
+  });
+
+  it('extracts payment-term: 半年繳 with prefix', () => {
+    expect(extractConditionFingerprint('依半年繳方式投保金福利')).toBe('term=半年繳');
+  });
+
+  it('extracts payment-term: 年繳 with prefix', () => {
+    expect(extractConditionFingerprint('依年繳方式投保金福利')).toBe('term=年繳');
+  });
+
+  it('does NOT extract 年繳 from noun modifier "年繳保費"', () => {
+    expect(extractConditionFingerprint('新臺幣 100 萬元(含)以上的年繳保費')).toBe('amount=100w+');
+  });
+
+  it('does NOT extract 月繳 from noun modifier "月繳金額"', () => {
+    expect(extractConditionFingerprint('依年齡 56~70 歲的月繳金額為何')).toBe('age=56-70');
+  });
+
   it('extracts amount range: 50 萬 - 100 萬', () => {
     expect(extractConditionFingerprint('新臺幣 50 萬元(含)至 100 萬元(不含)的年繳保費')).toBe('amount=50w-100w');
   });
