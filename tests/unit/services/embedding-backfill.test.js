@@ -55,8 +55,8 @@ describe('embedding-backfill task', () => {
     });
 
     const questions = [
-      { id: 'q1', question: 'What is AI?', projectId: 'proj-1' },
-      { id: 'q2', question: 'What is ML?', projectId: 'proj-1' },
+      { id: 'q1', question: 'What is AI?', projectId: 'proj-1', chunkId: 'chunk-1' },
+      { id: 'q2', question: 'What is ML?', projectId: 'proj-1', chunkId: 'chunk-2' },
     ];
 
     db.questions.findMany
@@ -71,11 +71,13 @@ describe('embedding-backfill task', () => {
       id: 'q1',
       text: 'What is AI?',
       projectId: 'proj-1',
+      chunkId: 'chunk-1',
     });
     expect(mockPipeline.processNewQuestion).toHaveBeenCalledWith({
       id: 'q2',
       text: 'What is ML?',
       projectId: 'proj-1',
+      chunkId: 'chunk-2',
     });
     expect(consoleLogSpy).toHaveBeenCalledWith(
       '[embedding-backfill] complete task=task-1 processed=2'
