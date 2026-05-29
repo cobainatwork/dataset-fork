@@ -49,6 +49,39 @@ describe('extractConditionFingerprint', () => {
     expect(extractConditionFingerprint('依年齡 56~70 歲申請金滿利的免體檢額度上限')).toBe('age=56-70');
   });
 
+  it('extracts age band when first digit also followed by 歲: 0 歲~60 歲', () => {
+    expect(extractConditionFingerprint('依投保年齡 0歲~60歲申請傳承富足利率變動型終身壽險，其繳費年期為何')).toBe('age=0-60');
+  });
+
+  it('extracts age band: 0 歲至 73 歲', () => {
+    expect(extractConditionFingerprint('依投保年齡 0歲至 73歲申請壽險')).toBe('age=0-73');
+  });
+
+  it('extracts product code from parenthesised tag', () => {
+    expect(extractConditionFingerprint('傳承富足利率變動型終身壽險(NTIW1202)')).toBe('product=NTIW1202');
+  });
+
+  it('extracts multi product codes separated by /', () => {
+    expect(extractConditionFingerprint('金得利利率變動型增額終身壽險(NTIW1502/NTIW1702/NTIW1802)')).toBe('product=NTIW1502,NTIW1702,NTIW1802');
+  });
+
+  it('age + product code combined', () => {
+    const fp = extractConditionFingerprint('依投保年齡0歲~60歲投保新傳承富利利率變動型終身壽險(NTIW1302)，其繳費年期為何？');
+    expect(fp).toBe('age=0-60|product=NTIW1302');
+  });
+
+  it('different product codes produce different fingerprints despite same age', () => {
+    const a = extractConditionFingerprint('依投保年齡 0歲~60歲投保新傳承富利利率變動型終身壽險(NTIW1302)，其繳費年期為何');
+    const b = extractConditionFingerprint('依投保年齡 0歲~60歲申請傳承富足利率變動型終身壽險(NTIW1202)，其繳費年期為何');
+    expect(a).not.toBe(b);
+    expect(a).toBe('age=0-60|product=NTIW1302');
+    expect(b).toBe('age=0-60|product=NTIW1202');
+  });
+
+  it('does NOT extract bare alphanumeric outside parentheses as product code', () => {
+    expect(extractConditionFingerprint('文中提到 NTIW1202 此編號僅為敘述')).toBeNull();
+  });
+
   it('extracts occupation class: 第一類', () => {
     expect(extractConditionFingerprint('依職業等級第一類申請傷害險的核保條件')).toBe('occ=1');
   });
