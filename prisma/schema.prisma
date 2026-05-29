@@ -107,6 +107,7 @@ model Questions {
   clusterId       String?
   clusterRole     String?
   similarityScore Float?
+  conditionFingerprint String?
 
   @@index([projectId])
   @@index([imageId])
