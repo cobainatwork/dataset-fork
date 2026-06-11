@@ -136,6 +136,44 @@ ${body}
       expect(r.length).toBe(1);
       expect(r[0].content).toContain('附註');
     });
+
+    it('fits in single chunk when total ≤ max (brake must not fire on small docs)', () => {
+      // 重現使用者場景：min=1000、max=20000、~6500 字、多個 markdown # heading 章節
+      // 整份遠小於 max → brake 不該 fire，整份應保留為單一 chunk
+      const body = '段落內容文字。'.repeat(100); // ~600 chars
+      const SAMPLE = `# 異常原因
+Chrome 瀏覽器啟用 LNA 檢核機制更版導致企業網路銀行安控元件啟動異常。
+
+## 一、網頁跳出下圖提示訊息
+${body}
+
+## 二、開啟區域網路存取權限
+${body}
+
+## 1. 找到設定位置
+${body}
+
+## 2. 點選設定
+${body}
+
+## 3. 點選隱私權和安全性
+${body}
+
+## 4. 網站設定下拉
+${body}
+
+## 5. 找到區域網路存取權
+${body}
+
+## 6. 選擇允許要求連線
+${body}
+
+## 7. 將 URL 加入自訂設定
+${body}
+`;
+      const r = splitMarkdown(SAMPLE, 1000, 20000);
+      expect(r.length).toBe(1);
+    });
   });
 
   describe('Chinese-numbered headings (no `#` prefix) act as section boundaries', () => {
