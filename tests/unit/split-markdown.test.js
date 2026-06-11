@@ -110,8 +110,11 @@ ${body}
 # 七、金得利利率變動型增額終身壽險
 ${body}
 `;
+    // MAX 設成 < 整份總長度（3 個 section × ~3700 ≈ 11100 chars），讓 brake
+    // 真正測「整份不能塞進 max → 拆 cross-chapter merge」這個設計用途；
+    // 整份 ≤ max 的場景由「fits in single chunk when total ≤ max」覆蓋。
     const MIN = 2500;
-    const MAX = 15000;
+    const MAX = 9000;
     const chunks = splitMarkdown(SAMPLE, MIN, MAX);
 
     it('produces one chunk per top-level section (3 chunks, not 1 or 2)', () => {
@@ -138,39 +141,39 @@ ${body}
     });
 
     it('fits in single chunk when total ≤ max (brake must not fire on small docs)', () => {
-      // 重現使用者場景：min=1000、max=20000、~6500 字、多個 markdown # heading 章節
-      // 整份遠小於 max → brake 不該 fire，整份應保留為單一 chunk
-      const body = '段落內容文字。'.repeat(100); // ~600 chars
+      // 重現使用者實況：min=1000、max=20000、文件 ~6500 字、多個 # heading
+      // 章節，其中至少一個 section 自身 ≥ min（如末段含大 details 區塊）。
+      // 整份遠小於 max → brake 不該 fire，整份應保留為單一 chunk。
+      const small = '段落內容文字。'.repeat(80); // ~480 chars
+      const big = '段落內容文字。'.repeat(400);   // ~2800 chars (≥ min=1000，會觸發 brake 條件)
       const SAMPLE = `# 異常原因
 Chrome 瀏覽器啟用 LNA 檢核機制更版導致企業網路銀行安控元件啟動異常。
 
 ## 一、網頁跳出下圖提示訊息
-${body}
+${small}
 
 ## 二、開啟區域網路存取權限
-${body}
+${small}
 
 ## 1. 找到設定位置
-${body}
+${small}
 
 ## 2. 點選設定
-${body}
+${small}
 
 ## 3. 點選隱私權和安全性
-${body}
+${small}
 
 ## 4. 網站設定下拉
-${body}
-
-## 5. 找到區域網路存取權
-${body}
-
-## 6. 選擇允許要求連線
-${body}
+${small}
 
 ## 7. 將 URL 加入自訂設定
-${body}
+${small}
+
+## 8. 詳細的補充說明區塊
+${big}
 `;
+      // 整份 ~6500 chars < max=20000；不論 brake 邏輯如何，整份都該 1 chunk
       const r = splitMarkdown(SAMPLE, 1000, 20000);
       expect(r.length).toBe(1);
     });
@@ -190,7 +193,9 @@ ${body}
 
 ${body}
 `;
-    const chunks = splitMarkdown(SAMPLE, 2500, 15000);
+    // MAX 設成 < 整份總長度（3 × ~3700 ≈ 11100），讓 brake 真正測「整份超 max
+    // 時拆 cross-chapter merge」；整份 ≤ max 場景由「fits in single chunk」覆蓋
+    const chunks = splitMarkdown(SAMPLE, 2500, 9000);
 
     it('produces one chunk per Chinese-numbered section (3 chunks)', () => {
       expect(chunks.length).toBe(3);
