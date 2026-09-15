@@ -3,37 +3,7 @@ import path from 'path';
 import fs from 'fs/promises';
 import { getProjectRoot } from '@/lib/db/base';
 import { getTaskConfig } from '@/lib/db/projects';
-import { processTask } from '@/lib/services/tasks';
-import { db } from '@/lib/db/index';
-
-function normalizeModelEndpoint(endpoint = '') {
-  let normalizedEndpoint = String(endpoint).trim();
-  if (!normalizedEndpoint) {
-    return '';
-  }
-  if (normalizedEndpoint.includes('/chat/completions')) {
-    normalizedEndpoint = normalizedEndpoint.replace('/chat/completions', '');
-  }
-  return normalizedEndpoint;
-}
-
-function normalizeTaskModelInfo(modelInfo) {
-  if (!modelInfo) {
-    return {};
-  }
-  let parsedModelInfo = modelInfo;
-  if (typeof modelInfo === 'string') {
-    try {
-      parsedModelInfo = JSON.parse(modelInfo);
-    } catch (error) {
-      return {};
-    }
-  }
-  if (parsedModelInfo && typeof parsedModelInfo === 'object' && parsedModelInfo.endpoint) {
-    parsedModelInfo.endpoint = normalizeModelEndpoint(parsedModelInfo.endpoint);
-  }
-  return parsedModelInfo;
-}
+import { createTask } from '@/lib/services/tasks';
 
 // 獲取任務配置
 export async function GET(request, { params }) {
@@ -125,25 +95,8 @@ export async function POST(request, { params }) {
       );
     }
 
-    // 建立新任務
-    const newTask = await db.task.create({
-      data: {
-        projectId,
-        taskType,
-        status: 0, // 初始狀態: 處理中
-        modelInfo: JSON.stringify(normalizeTaskModelInfo(modelInfo)),
-        language: language || 'zh-TW',
-        detail: detail || '',
-        totalCount,
-        note: note ? JSON.stringify(note) : '',
-        completedCount: 0
-      }
-    });
-
-    // 非同步啟動任務處理
-    processTask(newTask.id).catch(err => {
-      console.error(`Task startup failed: ${newTask.id}`, String(err));
-    });
+    // 建立新任務（含非同步啟動處理）
+    const newTask = await createTask({ projectId, taskType, modelInfo, language, detail, totalCount, note });
 
     return NextResponse.json({
       code: 0,

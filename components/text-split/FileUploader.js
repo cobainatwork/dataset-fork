@@ -208,23 +208,30 @@ export default function FileUploader({
   };
 
   /**
-   * 替換檔案並觸發 file-processing 任務（分塊）
+   * 替換檔案：寫檔、lineage/稽核、清除舊衍生、重建 file-processing 任務（分塊）
+   * 全部在 server 端完成；UI 不再重發 upload chain。
    */
   const handleReplaceRequested = async (targetFile, newFile) => {
     setUploading(true);
     try {
       const { fileContent, fileName } = await getContent(newFile);
-      const data = await fileApi.replaceFile({ projectId, oldFileId: targetFile.id, file: newFile, fileContent, fileName, t });
+      // PDF 處理策略需要的 vision model 物件（與正常上傳同源）
+      const availableModels = JSON.parse(localStorage.getItem('modelConfigList') || '[]');
+      const visionModel = availableModels.find(m => m.id === selectedViosnModel);
+      await fileApi.replaceFile({
+        projectId,
+        oldFileId: targetFile.id,
+        file: newFile,
+        fileContent,
+        fileName,
+        taskConfig: { strategy: pdfStrategy, visionModel },
+        t
+      });
       toast.success(t('textSplit.replaceSuccess'));
       setCurrentPage(1);
       await fetchUploadedFiles();
-      if (onUploadSuccess) {
-        await onUploadSuccess(
-          [{ fileName: data.fileName, fileId: data.newFileId }],
-          newFile.name.toLowerCase().endsWith('.pdf') ? [newFile] : [],
-          'keep'
-        );
-      }
+      // 刷新以帶出 server 端已建的 file-processing 任務（進度列 overlay）
+      location.reload();
     } catch (err) {
       toast.error(err.message || t('textSplit.replaceFailed'));
     } finally {
