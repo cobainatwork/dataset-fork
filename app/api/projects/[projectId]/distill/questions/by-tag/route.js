@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/db';
+import { getTagById } from '@/lib/db/tags';
+import { ensureDistillChunk } from '@/lib/db/chunks';
+import { findQuestions } from '@/lib/db/questions';
 
 /**
  * 根據標籤ID獲取問題列表
@@ -20,38 +22,15 @@ export async function GET(request, { params }) {
     }
 
     // 獲取標籤資訊
-    const tag = await db.tags.findUnique({
-      where: { id: tagId }
-    });
+    const tag = await getTagById(tagId);
 
     if (!tag) {
       return NextResponse.json({ error: '標籤不存在' }, { status: 404 });
     }
 
     // 獲取或建立蒸餾文字塊
-    let distillChunk = await db.chunks.findFirst({
-      where: {
-        projectId,
-        name: 'Distilled Content'
-      }
-    });
-
-    if (!distillChunk) {
-      // 建立一個特殊的蒸餾文字塊
-      distillChunk = await db.chunks.create({
-        data: {
-          name: 'Distilled Content',
-          projectId,
-          fileId: 'distilled',
-          fileName: 'distilled.md',
-          content:
-            'This text block is used to store questions generated through data distillation and is not related to actual literature.',
-          summary: 'Questions generated through data distillation',
-          size: 0
-        }
-      });
-    }
-    const questions = await db.questions.findMany({
+    const distillChunk = await ensureDistillChunk(projectId);
+    const questions = await findQuestions({
       where: {
         projectId,
         label: tag.label,

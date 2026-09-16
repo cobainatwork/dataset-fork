@@ -1,25 +1,24 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/db';
+import { getDatasetsById, updateDatasetMetadata } from '@/lib/db/datasets';
+import { getQuestionById } from '@/lib/db/questions';
+import { createEvalQuestion } from '@/lib/db/evalDatasets';
 
 export async function POST(req, { params }) {
   try {
     const { projectId, datasetId } = params;
 
     // 1. 獲取資料集詳情
-    const dataset = await db.datasets.findUnique({
-      where: { id: datasetId, projectId }
-    });
+    const dataset = await getDatasetsById(datasetId);
 
-    if (!dataset) {
+    // datasetId 是全域 PK：必須驗證屬於路徑上的 projectId，防跨專案存取
+    if (!dataset || dataset.projectId !== projectId) {
       return NextResponse.json({ error: 'Dataset not found' }, { status: 404 });
     }
 
     // 2. 嘗試透過 questionId 查詢關聯的 chunkId
     let chunkId = null;
     if (dataset.questionId) {
-      const question = await db.questions.findUnique({
-        where: { id: dataset.questionId }
-      });
+      const question = await getQuestionById(dataset.questionId);
       if (question) {
         chunkId = question.chunkId;
       }
@@ -38,17 +37,15 @@ export async function POST(req, { params }) {
     // 排除 'Eval' 標籤，並將陣列轉為逗號分隔的字串
     const evalTagsString = evalTags.filter(tag => tag !== 'Eval').join(',');
 
-    const evalDataset = await db.evalDatasets.create({
-      data: {
-        projectId,
-        question: dataset.question,
-        questionType: 'open_ended',
-        correctAnswer: dataset.answer,
-        tags: evalTagsString,
-        note: dataset.note,
-        chunkId: chunkId,
-        options: '' // 開放題不需要選項
-      }
+    const evalDataset = await createEvalQuestion({
+      projectId,
+      question: dataset.question,
+      questionType: 'open_ended',
+      correctAnswer: dataset.answer,
+      tags: evalTagsString,
+      note: dataset.note,
+      chunkId: chunkId,
+      options: '' // 開放題不需要選項
     });
 
     // 4. 更新原資料集，新增 'Eval' 標籤
@@ -61,12 +58,7 @@ export async function POST(req, { params }) {
 
     if (!currentTags.includes('Eval')) {
       currentTags.push('Eval');
-      await db.datasets.update({
-        where: { id: datasetId },
-        data: {
-          tags: JSON.stringify(currentTags)
-        }
-      });
+      await updateDatasetMetadata(datasetId, { tags: currentTags });
     }
 
     return NextResponse.json({ success: true, evalDataset });

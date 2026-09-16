@@ -4,7 +4,7 @@
  */
 
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/db/index';
+import { createTask } from '@/lib/db/tasks';
 import { processTask } from '@/lib/services/tasks/index';
 
 /**
@@ -24,10 +24,9 @@ export async function POST(request, { params }) {
     }
 
     // 建立批次評估任務
-    const newTask = await db.task.create({
-      data: {
-        projectId,
-        taskType: 'dataset-evaluation',
+    const newTask = await createTask({
+      projectId,
+      taskType: 'dataset-evaluation',
         status: 0, // 初始狀態: 處理中
         modelInfo: JSON.stringify(model),
         language: language || 'zh-TW',
@@ -35,7 +34,6 @@ export async function POST(request, { params }) {
         totalCount: 0,
         note: '準備開始批次評估資料集品質...',
         completedCount: 0
-      }
     });
 
     // 非同步處理任務

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/db';
+import { listTags } from '@/lib/db/tags';
 
 /**
  * 獲取專案的所有蒸餾標籤
@@ -14,14 +14,7 @@ export async function GET(request, { params }) {
     }
 
     // 獲取所有標籤
-    const tags = await db.tags.findMany({
-      where: {
-        projectId
-      },
-      orderBy: {
-        label: 'asc'
-      }
-    });
+    const tags = await listTags(projectId);
 
     return NextResponse.json(tags);
   } catch (error) {

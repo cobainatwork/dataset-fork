@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { distillTagsPrompt } from '@/lib/llm/prompts/distillTags';
-import { db } from '@/lib/db';
+import { getTagsByParent, createTag } from '@/lib/db/tags';
 import { getProject } from '@/lib/db/projects';
 
 const LLMClient = require('@/lib/llm/core');
@@ -25,12 +25,7 @@ export async function POST(request, { params }) {
     }
 
     // 查詢現有標籤
-    const existingTags = await db.tags.findMany({
-      where: {
-        projectId,
-        parentId: parentTagId || null
-      }
-    });
+    const existingTags = await getTagsByParent(projectId, parentTagId);
 
     const existingTagNames = existingTags.map(tag => tag.label);
 
@@ -66,13 +61,7 @@ export async function POST(request, { params }) {
     for (let i = 0; i < tags.length; i++) {
       const tagName = tags[i];
       try {
-        const tag = await db.tags.create({
-          data: {
-            label: tagName,
-            projectId,
-            parentId: parentTagId || null
-          }
-        });
+        const tag = await createTag(projectId, tagName, parentTagId);
         savedTags.push(tag);
       } catch (error) {
         console.error(`[標籤生成] 儲存標籤 ${tagName} 失敗:`, String(error));

@@ -1,9 +1,8 @@
 import { NextResponse } from 'next/server';
-import { getGaPairsByFileId, toggleGaPairActive, saveGaPairs, createGaPairs } from '@/lib/db/ga-pairs';
+import { getGaPairsByFileId, toggleGaPairActive, saveGaPairs, createGaPairs, replaceGaPairs } from '@/lib/db/ga-pairs';
 import { getUploadFileInfoById } from '@/lib/db/upload-files';
 import { generateGaPairs } from '@/lib/services/ga/ga-generation';
 import logger from '@/lib/util/logger';
-import { db } from '@/lib/db/index';
 
 /**
  * 生成檔案的 GA 對
@@ -216,42 +215,8 @@ export async function PUT(request, { params }) {
 
     logger.info(`Replacing all GA pairs for file ${fileId} with ${updates.length} pairs`);
 
-    // 使用資料庫事務確保原子性操作
-    const results = await db.$transaction(async tx => {
-      // 1. 先刪除所有現有的GA對
-      await tx.gaPairs.deleteMany({
-        where: { fileId }
-      });
-
-      // 2. 然後建立新的GA對
-      if (updates.length > 0) {
-        const gaPairData = updates.map((pair, index) => ({
-          projectId,
-          fileId,
-          pairNumber: index + 1,
-          genreTitle: pair.genreTitle || pair.genre?.title || pair.genre || '',
-          genreDesc: pair.genreDesc || pair.genre?.description || '',
-          audienceTitle: pair.audienceTitle || pair.audience?.title || pair.audience || '',
-          audienceDesc: pair.audienceDesc || pair.audience?.description || '',
-          isActive: pair.isActive !== undefined ? pair.isActive : true
-        }));
-
-        // 驗證資料
-        for (const data of gaPairData) {
-          if (!data.genreTitle || !data.audienceTitle) {
-            throw new Error(`Invalid GA pair data: missing genre or audience title`);
-          }
-        }
-
-        await tx.gaPairs.createMany({ data: gaPairData });
-      }
-
-      // 3. 返回新建立的GA對
-      return await tx.gaPairs.findMany({
-        where: { fileId },
-        orderBy: { pairNumber: 'asc' }
-      });
-    });
+    // 原子性取代（刪舊、驗證、建新、回讀收在 db 層單一事務內）
+    const results = await replaceGaPairs(projectId, fileId, updates);
 
     logger.info(`Successfully replaced GA pairs, new count: ${results.length}`);
 

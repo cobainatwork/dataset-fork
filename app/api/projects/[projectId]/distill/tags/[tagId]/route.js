@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/db';
+import { getTagById, findTagByLabel, updateTag } from '@/lib/db/tags';
 
 /**
  * 更新標籤介面
@@ -20,9 +20,7 @@ export async function PUT(request, { params }) {
     }
 
     // 檢查標籤是否存在
-    const existingTag = await db.tags.findUnique({
-      where: { id: tagId }
-    });
+    const existingTag = await getTagById(tagId);
 
     if (!existingTag) {
       return NextResponse.json({ error: '標籤不存在' }, { status: 404 });
@@ -34,24 +32,14 @@ export async function PUT(request, { params }) {
     }
 
     // 檢查新標籤名稱是否已存在（同級標籤）
-    const duplicateTag = await db.tags.findFirst({
-      where: {
-        projectId,
-        label: label.trim(),
-        parentId: existingTag.parentId,
-        id: { not: tagId }
-      }
-    });
+    const duplicateTag = await findTagByLabel(projectId, label.trim(), existingTag.parentId, tagId);
 
     if (duplicateTag) {
       return NextResponse.json({ error: '同級標籤名稱已存在' }, { status: 400 });
     }
 
     // 更新標籤
-    const updatedTag = await db.tags.update({
-      where: { id: tagId },
-      data: { label: label.trim() }
-    });
+    const updatedTag = await updateTag(label.trim(), tagId);
 
     return NextResponse.json(updatedTag);
   } catch (error) {

@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/db/index';
+import { listClusters } from '@/lib/db/clusters';
+import { getProjectsMeta } from '@/lib/db/projects';
 
 export const dynamic = 'force-dynamic';
 
@@ -9,28 +10,12 @@ export async function GET(request) {
   const onlyDivergent = url.searchParams.get('onlyDivergent') === 'true';
   const minSize = parseInt(url.searchParams.get('minSize') || '2', 10);
 
-  const where = {
-    size: { gte: minSize },
-    ...(onlyDivergent ? { hasAnswerDivergence: true } : {}),
-    ...(projectId ? { ClusterProject: { some: { projectId } } } : {}),
-  };
-
-  const clusters = await db.questionCluster.findMany({
-    where,
-    take: 100,
-    orderBy: { size: 'desc' },
-    include: {
-      ClusterProject: { select: { projectId: true } },
-    },
-  });
+  const clusters = await listClusters({ projectId, onlyDivergent, minSize });
 
   // ClusterProject.projectId 是純字串、沒 relation 到 Projects → 另查名稱對照
   const projectIds = [...new Set(clusters.flatMap(c => c.ClusterProject.map(cp => cp.projectId)))];
   const projects = projectIds.length
-    ? await db.projects.findMany({
-        where: { id: { in: projectIds } },
-        select: { id: true, name: true },
-      })
+    ? await getProjectsMeta(projectIds)
     : [];
   const nameById = Object.fromEntries(projects.map(p => [p.id, p.name]));
 

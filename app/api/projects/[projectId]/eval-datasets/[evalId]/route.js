@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getEvalQuestionById, updateEvalQuestion, deleteEvalQuestion } from '@/lib/db/evalDatasets';
-import { db } from '@/lib/db/index';
+import { findFirstEvalDataset } from '@/lib/db/evalDatasets';
 
 /**
  * Get evaluation dataset details by ID
@@ -14,7 +14,7 @@ export async function GET(request, { params }) {
 
     // Navigation request (prev/next)
     if (operateType) {
-      const current = await db.evalDatasets.findUnique({
+      const current = await findFirstEvalDataset({
         where: { id: evalId },
         select: { createAt: true }
       });
@@ -27,7 +27,7 @@ export async function GET(request, { params }) {
 
       if (operateType === 'prev') {
         // Get previous item (newer createAt when list is sorted desc)
-        neighbor = await db.evalDatasets.findFirst({
+        neighbor = await findFirstEvalDataset({
           where: {
             projectId,
             createAt: { gt: current.createAt }
@@ -37,7 +37,7 @@ export async function GET(request, { params }) {
         });
       } else if (operateType === 'next') {
         // Get next item (older createAt)
-        neighbor = await db.evalDatasets.findFirst({
+        neighbor = await findFirstEvalDataset({
           where: {
             projectId,
             createAt: { lt: current.createAt }

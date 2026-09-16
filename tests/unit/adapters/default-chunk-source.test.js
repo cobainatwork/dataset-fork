@@ -1,9 +1,9 @@
-jest.mock('@/lib/db/index', () => ({
+jest.mock('@/lib/db/client', () => ({
   db: { chunks: { findMany: jest.fn(), findUnique: jest.fn() } },
 }));
 
 const { createDefaultChunkSource } = require('@/lib/services/embedding/adapters/default-chunk-source');
-const { db } = require('@/lib/db/index');
+const { db } = require('@/lib/db/client');
 
 describe('DefaultChunkSource', () => {
   beforeEach(() => jest.clearAllMocks());

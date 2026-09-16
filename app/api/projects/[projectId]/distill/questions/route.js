@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { distillQuestionsPrompt } from '@/lib/llm/prompts/distillQuestions';
-import { db } from '@/lib/db';
+import { ensureDistillChunk } from '@/lib/db/chunks';
+import { findQuestions, createQuestion } from '@/lib/db/questions';
 
 const LLMClient = require('@/lib/llm/core');
 
@@ -24,31 +25,10 @@ export async function POST(request, { params }) {
     }
 
     // 首先獲取或建立蒸餾文字塊
-    let distillChunk = await db.chunks.findFirst({
-      where: {
-        projectId,
-        name: 'Distilled Content'
-      }
-    });
-
-    if (!distillChunk) {
-      // 建立一個特殊的蒸餾文字塊
-      distillChunk = await db.chunks.create({
-        data: {
-          name: 'Distilled Content',
-          projectId,
-          fileId: 'distilled',
-          fileName: 'distilled.md',
-          content:
-            'This text block is used to store questions generated through data distillation and is not related to actual literature.',
-          summary: 'Questions generated through data distillation',
-          size: 0
-        }
-      });
-    }
+    const distillChunk = await ensureDistillChunk(projectId);
 
     // 獲取已有的問題，避免重複
-    const existingQuestions = await db.questions.findMany({
+    const existingQuestions = await findQuestions({
       where: {
         projectId,
         label: currentTag,
@@ -82,13 +62,11 @@ export async function POST(request, { params }) {
     // 儲存問題到資料庫
     const savedQuestions = [];
     for (const questionText of questions) {
-      const question = await db.questions.create({
-        data: {
-          question: questionText,
-          projectId,
-          label: currentTag,
-          chunkId: distillChunk.id
-        }
+      const question = await createQuestion({
+        question: questionText,
+        projectId,
+        label: currentTag,
+        chunkId: distillChunk.id
       });
       savedQuestions.push(question);
     }

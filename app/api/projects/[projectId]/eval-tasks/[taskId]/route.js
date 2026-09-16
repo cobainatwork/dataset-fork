@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/db/index';
+import { getTaskById, updateTask, deleteTaskById } from '@/lib/db/tasks';
+import { deleteEvalResultsByTaskId } from '@/lib/db/evalResults';
 import { getEvalResultsByTaskId, getEvalResultsStats } from '@/lib/db/evalResults';
 
 /**
@@ -14,9 +15,7 @@ export async function GET(request, { params }) {
     }
 
     // Fetch task details
-    const task = await db.task.findUnique({
-      where: { id: taskId }
-    });
+    const task = await getTaskById(taskId);
 
     if (!task) {
       return NextResponse.json({ error: 'Task not found' }, { status: 404 });
@@ -91,9 +90,7 @@ export async function DELETE(request, { params }) {
     }
 
     // Validate task exists and belongs to this project
-    const task = await db.task.findUnique({
-      where: { id: taskId }
-    });
+    const task = await getTaskById(taskId);
 
     if (!task) {
       return NextResponse.json({ error: 'Task not found' }, { status: 404 });
@@ -104,14 +101,10 @@ export async function DELETE(request, { params }) {
     }
 
     // Delete evaluation results
-    await db.evalResults.deleteMany({
-      where: { taskId }
-    });
+    await deleteEvalResultsByTaskId(taskId);
 
     // Delete task
-    await db.task.delete({
-      where: { id: taskId }
-    });
+    await deleteTaskById(taskId);
 
     return NextResponse.json({
       code: 0,
@@ -140,9 +133,7 @@ export async function PUT(request, { params }) {
     }
 
     // Validate task exists and belongs to this project
-    const task = await db.task.findUnique({
-      where: { id: taskId }
-    });
+    const task = await getTaskById(taskId);
 
     if (!task) {
       return NextResponse.json({ error: 'Task not found' }, { status: 404 });
@@ -154,12 +145,9 @@ export async function PUT(request, { params }) {
 
     if (action === 'interrupt') {
       // Interrupt task
-      await db.task.update({
-        where: { id: taskId },
-        data: {
-          status: 3, // Interrupted
-          endTime: new Date()
-        }
+      await updateTask(taskId, {
+        status: 3, // Interrupted
+        endTime: new Date()
       });
 
       return NextResponse.json({

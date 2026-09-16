@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/db/index';
+import { createManyEvalQuestions } from '@/lib/db/evalDatasets';
 import { nanoid } from 'nanoid';
 import * as XLSX from 'xlsx';
 
@@ -350,7 +350,7 @@ export async function POST(request, { params }) {
 
     for (let i = 0; i < evalDatasets.length; i += batchSize) {
       const batch = evalDatasets.slice(i, i + batchSize);
-      await db.evalDatasets.createMany({ data: batch });
+      await createManyEvalQuestions(batch);
       insertedCount += batch.length;
       console.log(`[Import] Inserted ${insertedCount}/${evalDatasets.length} items`);
     }

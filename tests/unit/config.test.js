@@ -1,4 +1,4 @@
-jest.mock('@/lib/db/index', () => ({
+jest.mock('@/lib/db/client', () => ({
   db: {
     embeddingConfig: {
       upsert: jest.fn(),
@@ -8,7 +8,7 @@ jest.mock('@/lib/db/index', () => ({
 }));
 
 const { getConfig, saveConfig, DEFAULTS } = require('@/lib/services/embedding/config');
-const { db } = require('@/lib/db/index');
+const { db } = require('@/lib/db/client');
 
 describe('embedding config', () => {
   beforeEach(() => jest.clearAllMocks());

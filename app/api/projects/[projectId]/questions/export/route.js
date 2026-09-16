@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { findQuestions } from '@/lib/db/questions';
 
 export async function POST(request, { params }) {
   try {
@@ -37,7 +38,6 @@ export async function POST(request, { params }) {
 
 // 獲取全部問題（不限分頁）
 async function getAllQuestions(projectId, searchTerm = '', chunkName = '', sourceType = 'all') {
-  const { db } = await import('@/lib/db/index');
 
   const whereClause = {
     projectId
@@ -62,7 +62,7 @@ async function getAllQuestions(projectId, searchTerm = '', chunkName = '', sourc
     whereClause.imageName = { not: null };
   }
 
-  return await db.questions.findMany({
+  return await findQuestions({
     where: whereClause,
     include: {
       chunk: {
@@ -79,9 +79,7 @@ async function getAllQuestions(projectId, searchTerm = '', chunkName = '', sourc
 
 // 根據 ID 列表獲取問題
 async function getQuestionsByIds(projectId, questionIds) {
-  const { db } = await import('@/lib/db/index');
-
-  return await db.questions.findMany({
+  return await findQuestions({
     where: {
       projectId,
       id: { in: questionIds }

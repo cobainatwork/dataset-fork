@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/db/index';
+import { findFirstTask, createTask } from '@/lib/db/tasks';
 
 export const dynamic = 'force-dynamic';
 
@@ -15,9 +15,7 @@ export async function POST(request) {
     return NextResponse.json({ error: 'PROJECT_ID_REQUIRED' }, { status: 400 });
   }
 
-  const existing = await db.task.findFirst({
-    where: { taskType: 'embedding-backfill', projectId, status: { in: [0] } },
-  });
+  const existing = await findFirstTask({ taskType: 'embedding-backfill', projectId, status: { in: [0] } });
   if (existing) {
     return NextResponse.json(
       { error: 'BACKFILL_ALREADY_RUNNING', taskId: existing.id },
@@ -25,14 +23,12 @@ export async function POST(request) {
     );
   }
 
-  const task = await db.task.create({
-    data: {
-      taskType: 'embedding-backfill',
-      projectId,
-      detail: '{}',
-      modelInfo: '{}',
-      status: 0,
-    },
+  const task = await createTask({
+    taskType: 'embedding-backfill',
+    projectId,
+    detail: '{}',
+    modelInfo: '{}',
+    status: 0,
   });
   return NextResponse.json({ ok: true, taskId: task.id });
 }

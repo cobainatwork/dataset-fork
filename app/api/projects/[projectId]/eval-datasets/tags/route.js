@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/db/index';
+import { findEvalDatasets } from '@/lib/db/evalDatasets';
 
 /**
  * Get all evaluation dataset tags in the project
@@ -9,7 +9,7 @@ export async function GET(request, { params }) {
     const { projectId } = params;
 
     // Fetch tags for all datasets in the project
-    const datasets = await db.evalDatasets.findMany({
+    const datasets = await findEvalDatasets({
       where: { projectId },
       select: { tags: true }
     });

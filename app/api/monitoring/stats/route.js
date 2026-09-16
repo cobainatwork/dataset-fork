@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/db';
+import { findUsageLogs } from '@/lib/db/usage-logs';
+import { getProjectsMeta } from '@/lib/db/projects';
 
 export const dynamic = 'force-dynamic';
 
@@ -39,7 +40,7 @@ export async function GET(request) {
 
     // 1. Fetch data for aggregation
     // Note: Prisma aggregation can be slow on very large datasets. If needed, optimize with pre-aggregated tables.
-    const logs = await db.llmUsageLogs.findMany({
+    const logs = await findUsageLogs({
       where,
       select: {
         id: true,
@@ -61,9 +62,7 @@ export async function GET(request) {
     });
 
     // Build project name map
-    const projects = await db.projects.findMany({
-      select: { id: true, name: true }
-    });
+    const projects = await getProjectsMeta();
     const projectMap = projects.reduce((acc, p) => {
       acc[p.id] = p.name;
       return acc;

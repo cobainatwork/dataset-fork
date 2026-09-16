@@ -1,19 +1,16 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/db/index';
+import { getClusterWithDetails, createClusterFeedback } from '@/lib/db/clusters';
+import { findQuestions } from '@/lib/db/questions';
+import { findDatasets } from '@/lib/db/datasets';
+import { getProjectsMeta } from '@/lib/db/projects';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET(_request, { params }) {
-  const cluster = await db.questionCluster.findUnique({
-    where: { id: params.id },
-    include: {
-      ClusterProject: true,
-      Feedback: { orderBy: { createAt: 'desc' }, take: 50 },
-    },
-  });
+  const cluster = await getClusterWithDetails(params.id);
   if (!cluster) return NextResponse.json({ error: 'NOT_FOUND' }, { status: 404 });
 
-  const members = await db.questions.findMany({
+  const members = await findQuestions({
     where: { clusterId: params.id },
     select: {
       id: true,
@@ -30,7 +27,7 @@ export async function GET(_request, { params }) {
   // 撈 confirmed 答案（一個 question 可能有多筆 dataset，取最新一筆 confirmed）
   const memberIds = members.map(m => m.id);
   const datasets = memberIds.length
-    ? await db.datasets.findMany({
+    ? await findDatasets({
         where: { questionId: { in: memberIds } },
         select: {
           questionId: true,
@@ -65,10 +62,7 @@ export async function GET(_request, { params }) {
   // 跨專案列出名稱，前端 chip 展開用
   const projectIds = cluster.ClusterProject.map(cp => cp.projectId);
   const projects = projectIds.length
-    ? await db.projects.findMany({
-        where: { id: { in: projectIds } },
-        select: { id: true, name: true },
-      })
+    ? await getProjectsMeta(projectIds)
     : [];
   const projectNames = projects.map(p => ({ id: p.id, name: p.name }));
 
@@ -80,8 +74,11 @@ export async function POST(request, { params }) {
   if (!['correct', 'incorrect', 'partial'].includes(verdict)) {
     return NextResponse.json({ error: 'INVALID_VERDICT' }, { status: 400 });
   }
-  const fb = await db.clusterFeedback.create({
-    data: { clusterId: params.id, verdict, note: note || '', similarityAtTime: similarityAtTime || 0 },
+  const fb = await createClusterFeedback({
+    clusterId: params.id,
+    verdict,
+    note: note || '',
+    similarityAtTime: similarityAtTime || 0,
   });
   return NextResponse.json({ ok: true, feedbackId: fb.id });
 }

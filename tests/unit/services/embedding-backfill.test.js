@@ -1,4 +1,4 @@
-jest.mock('@/lib/db/index', () => ({
+jest.mock('@/lib/db/client', () => ({
   db: {
     questions: {
       findMany: jest.fn(),
@@ -11,7 +11,7 @@ jest.mock('@/lib/services/embedding/index.js', () => ({
 }));
 
 const { processEmbeddingBackfillTask } = require('@/lib/services/tasks/embedding-backfill');
-const { db } = require('@/lib/db/index');
+const { db } = require('@/lib/db/client');
 const { getEmbeddingService } = require('@/lib/services/embedding/index.js');
 
 describe('embedding-backfill task', () => {

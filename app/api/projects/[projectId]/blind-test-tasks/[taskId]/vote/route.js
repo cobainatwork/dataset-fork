@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/db/index';
+import { createEvalResult, findEvalResults } from '@/lib/db/evalResults';
+import { findFirstTask, updateTask } from '@/lib/db/tasks';
 
 /**
  * Submit vote result
@@ -21,7 +22,7 @@ export async function POST(request, { params }) {
       return NextResponse.json({ code: 400, error: 'Question ID is required' }, { status: 400 });
     }
 
-    const task = await db.task.findFirst({
+    const task = await findFirstTask({
       where: {
         id: taskId,
         projectId,
@@ -70,8 +71,7 @@ export async function POST(request, { params }) {
     // both_bad: both scores remain 0
 
     // Store result in EvalResults table
-    const evalResult = await db.evalResults.create({
-      data: {
+    const evalResult = await createEvalResult({
         projectId,
         taskId,
         evalDatasetId: questionId,
@@ -89,7 +89,6 @@ export async function POST(request, { params }) {
         }),
         duration: 0,
         status: 0
-      }
     });
 
     // Update task progress
@@ -102,18 +101,15 @@ export async function POST(request, { params }) {
       currentIndex: newCurrentIndex
     };
 
-    await db.task.update({
-      where: { id: taskId },
-      data: {
-        detail: JSON.stringify(updatedDetail),
-        completedCount: newCurrentIndex,
-        status: isCompleted ? 1 : 0, // 1-completed, 0-running
-        endTime: isCompleted ? new Date() : null
-      }
+    await updateTask(taskId, {
+      detail: JSON.stringify(updatedDetail),
+      completedCount: newCurrentIndex,
+      status: isCompleted ? 1 : 0, // 1-completed, 0-running
+      endTime: isCompleted ? new Date() : null
     });
 
     // Calculate current total scores from EvalResults
-    const allResults = await db.evalResults.findMany({
+    const allResults = await findEvalResults({
       where: { taskId },
       select: { judgeResponse: true }
     });

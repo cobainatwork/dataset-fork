@@ -75,7 +75,7 @@ describe('updateQuestion re-embeds on text change', () => {
     // Build a force task by hand and run the handler directly, bypassing the LLM by
     // stubbing svc.pipeline. We instead just verify that the handler's findMany DOES
     // include this question when force=true (the embeddedAt filter is bypassed).
-    const { db } = require('@/lib/db');
+    const { db } = require('@/lib/db/client');
     const force = true;
     const found = await db.questions.findMany({
       where: force

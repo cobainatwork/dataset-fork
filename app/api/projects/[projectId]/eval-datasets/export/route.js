@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/db/index';
+import { countEvalDatasets, findEvalDatasets } from '@/lib/db/evalDatasets';
 import { buildEvalQuestionWhere } from '@/lib/db/evalDatasets';
 
 const BATCH_SIZE = 500;
@@ -73,7 +73,7 @@ export async function POST(request, { params }) {
     });
 
     // Fetch total count
-    const total = await db.evalDatasets.count({ where });
+    const total = await countEvalDatasets(where);
 
     if (total === 0) {
       return NextResponse.json({ code: 400, error: 'No data matches the criteria' }, { status: 400 });
@@ -81,7 +81,7 @@ export async function POST(request, { params }) {
 
     // Return directly for small datasets
     if (total <= 1000) {
-      const items = await db.evalDatasets.findMany({
+      const items = await findEvalDatasets({
         where,
         orderBy: { createAt: 'desc' }
       });
@@ -138,7 +138,7 @@ export async function POST(request, { params }) {
         const totalBatches = Math.ceil(total / BATCH_SIZE);
 
         for (let batch = 0; batch < totalBatches; batch++) {
-          const items = await db.evalDatasets.findMany({
+          const items = await findEvalDatasets({
             where,
             orderBy: { createAt: 'desc' },
             skip: batch * BATCH_SIZE,
@@ -215,7 +215,7 @@ export async function GET(request, { params }) {
     });
 
     // Count rows
-    const total = await db.evalDatasets.count({ where });
+    const total = await countEvalDatasets(where);
 
     return NextResponse.json({
       code: 0,

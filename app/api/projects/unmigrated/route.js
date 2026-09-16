@@ -1,5 +1,5 @@
 import { getProjectRoot } from '@/lib/db/base';
-import { db } from '@/lib/db/index';
+import { getProjectsMeta } from '@/lib/db/projects';
 import fs from 'fs';
 import path from 'path';
 import { NextResponse } from 'next/server';
@@ -35,16 +35,7 @@ export async function GET(request) {
     const projectIds = projectDirs.map(dir => dir.name);
 
     // Batch query migrated projects
-    const existingProjects = await db.projects.findMany({
-      where: {
-        id: {
-          in: projectIds
-        }
-      },
-      select: {
-        id: true
-      }
-    });
+    const existingProjects = await getProjectsMeta(projectIds);
 
     // Convert to Set for fast lookups
     const existingProjectIds = new Set(existingProjects.map(p => p.id));

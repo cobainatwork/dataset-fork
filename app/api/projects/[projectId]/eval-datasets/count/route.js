@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/db';
+import { countEvalDatasets, groupEvalDatasetsByType } from '@/lib/db/evalDatasets';
 import { buildEvalQuestionWhere } from '@/lib/db/evalDatasets';
 
 export async function GET(request, { params }) {
@@ -29,12 +29,8 @@ export async function GET(request, { params }) {
     });
 
     const [total, byTypeRaw] = await Promise.all([
-      db.evalDatasets.count({ where }),
-      db.evalDatasets.groupBy({
-        by: ['questionType'],
-        where,
-        _count: { id: true }
-      })
+      countEvalDatasets(where),
+      groupEvalDatasetsByType(where)
     ]);
 
     const byType = {};

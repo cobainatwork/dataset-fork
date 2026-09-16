@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/db';
+import { countEvalDatasets, findEvalDatasets } from '@/lib/db/evalDatasets';
 import { buildEvalQuestionWhere } from '@/lib/db/evalDatasets';
 
 const SMALL_TOTAL_THRESHOLD = 5000;
@@ -37,7 +37,7 @@ export async function POST(request, { params }) {
       tags: Array.isArray(tags) && tags.length > 0 ? tags : undefined
     });
 
-    const total = await db.evalDatasets.count({ where });
+    const total = await countEvalDatasets(where);
 
     if (total === 0) {
       return NextResponse.json(
@@ -57,7 +57,7 @@ export async function POST(request, { params }) {
     let normalizedLimit = typeof limit === 'number' && limit > 0 ? Math.min(limit, HARD_LIMIT) : HARD_LIMIT;
 
     if (normalizedLimit >= total) {
-      const items = await db.evalDatasets.findMany({
+      const items = await findEvalDatasets({
         where,
         select: { id: true },
         orderBy: { createAt: 'desc' }
@@ -83,7 +83,7 @@ export async function POST(request, { params }) {
     let strategyUsed = strategy;
 
     if (total <= SMALL_TOTAL_THRESHOLD) {
-      const items = await db.evalDatasets.findMany({
+      const items = await findEvalDatasets({
         where,
         select: { id: true },
         orderBy: { createAt: 'desc' }
@@ -92,7 +92,7 @@ export async function POST(request, { params }) {
       ids = shuffled.slice(0, normalizedLimit).map(item => item.id);
       strategyUsed = 'random-small';
     } else {
-      const items = await db.evalDatasets.findMany({
+      const items = await findEvalDatasets({
         where,
         select: { id: true },
         orderBy: { createAt: 'desc' },

@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/db/index';
+import { findTasks, countTasks, createTask } from '@/lib/db/tasks';
+import { findEvalDatasets } from '@/lib/db/evalDatasets';
+import { getModelConfigByModel } from '@/lib/db/model-config';
 import { processTask } from '@/lib/services/tasks';
 
 /**
@@ -20,7 +22,7 @@ export async function GET(request, { params }) {
 
     // Fetch task list and total count
     const [tasks, total] = await Promise.all([
-      db.task.findMany({
+      findTasks({
         where: {
           projectId,
           taskType: 'model-evaluation'
@@ -29,11 +31,9 @@ export async function GET(request, { params }) {
         skip,
         take: pageSize
       }),
-      db.task.count({
-        where: {
-          projectId,
-          taskType: 'model-evaluation'
-        }
+      countTasks({
+        projectId,
+        taskType: 'model-evaluation'
       })
     ]);
 
@@ -102,7 +102,7 @@ export async function POST(request, { params }) {
     }
 
     // Check for subjective questions
-    const evalDatasets = await db.evalDatasets.findMany({
+    const evalDatasets = await findEvalDatasets({
       where: {
         id: { in: evalDatasetIds },
         projectId
@@ -143,13 +143,7 @@ export async function POST(request, { params }) {
       const { modelId, providerId } = model;
 
       // Fetch full model config
-      const modelConfig = await db.modelConfig.findFirst({
-        where: {
-          projectId,
-          providerId,
-          modelId
-        }
-      });
+      const modelConfig = await getModelConfigByModel(projectId, providerId, modelId);
 
       // Keep providerId for lookup, add providerName for display
       const modelInfo = {
@@ -170,18 +164,16 @@ export async function POST(request, { params }) {
       };
 
       // Create task
-      const newTask = await db.task.create({
-        data: {
-          projectId,
-          taskType: 'model-evaluation',
-          status: 0, // Processing
-          modelInfo: JSON.stringify(modelInfo),
-          language,
-          detail: JSON.stringify(taskDetail),
-          totalCount: evalDatasetIds.length,
-          completedCount: 0,
-          note: ''
-        }
+      const newTask = await createTask({
+        projectId,
+        taskType: 'model-evaluation',
+        status: 0, // Processing
+        modelInfo: JSON.stringify(modelInfo),
+        language,
+        detail: JSON.stringify(taskDetail),
+        totalCount: evalDatasetIds.length,
+        completedCount: 0,
+        note: ''
       });
 
       createdTasks.push(newTask);

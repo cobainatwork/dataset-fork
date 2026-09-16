@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/db';
+import { countUsageLogs, findUsageLogs } from '@/lib/db/usage-logs';
+import { getProjectsMeta } from '@/lib/db/projects';
 
 export const dynamic = 'force-dynamic';
 
@@ -44,8 +45,8 @@ export async function GET(request) {
       where.OR = [{ model: { contains: searchTerm } }, { errorMessage: { contains: searchTerm } }];
     }
 
-    const total = await db.llmUsageLogs.count({ where });
-    const logs = await db.llmUsageLogs.findMany({
+    const total = await countUsageLogs(where);
+    const logs = await findUsageLogs({
       where,
       select: {
         id: true,
@@ -68,10 +69,7 @@ export async function GET(request) {
     });
 
     const projectIds = [...new Set(logs.map(log => log.projectId))];
-    const projects = await db.projects.findMany({
-      where: { id: { in: projectIds } },
-      select: { id: true, name: true }
-    });
+    const projects = await getProjectsMeta(projectIds);
     const projectMap = projects.reduce((acc, p) => {
       acc[p.id] = p.name;
       return acc;

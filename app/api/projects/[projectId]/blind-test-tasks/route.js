@@ -1,5 +1,8 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/db/index';
+import { findTasks, countTasks, createTask } from '@/lib/db/tasks';
+import { findEvalResults } from '@/lib/db/evalResults';
+import { findEvalDatasets } from '@/lib/db/evalDatasets';
+import { getModelConfigByModel } from '@/lib/db/model-config';
 
 /**
  * Get all blind-test tasks for a project
@@ -19,7 +22,7 @@ export async function GET(request, { params }) {
 
     // Fetch task list and total count
     const [tasks, total] = await Promise.all([
-      db.task.findMany({
+      findTasks({
         where: {
           projectId,
           taskType: 'blind-test'
@@ -28,17 +31,15 @@ export async function GET(request, { params }) {
         skip,
         take: pageSize
       }),
-      db.task.count({
-        where: {
-          projectId,
-          taskType: 'blind-test'
-        }
+      countTasks({
+        projectId,
+        taskType: 'blind-test'
       })
     ]);
 
     // Fetch evaluation results for all tasks to calculate scores
     const taskIds = tasks.map(t => t.id);
-    const allEvalResults = await db.evalResults.findMany({
+    const allEvalResults = await findEvalResults({
       where: { taskId: { in: taskIds } },
       select: {
         taskId: true,
@@ -136,7 +137,7 @@ export async function POST(request, { params }) {
       return NextResponse.json({ code: 400, error: 'Please select questions to evaluate' }, { status: 400 });
     }
 
-    const evalDatasets = await db.evalDatasets.findMany({
+    const evalDatasets = await findEvalDatasets({
       where: {
         id: { in: evalDatasetIds },
         projectId
@@ -160,12 +161,8 @@ export async function POST(request, { params }) {
 
     // Fetch model config info
     const [modelConfigA, modelConfigB] = await Promise.all([
-      db.modelConfig.findFirst({
-        where: { projectId, providerId: modelA.providerId, modelId: modelA.modelId }
-      }),
-      db.modelConfig.findFirst({
-        where: { projectId, providerId: modelB.providerId, modelId: modelB.modelId }
-      })
+      getModelConfigByModel(projectId, modelA.providerId, modelA.modelId),
+      getModelConfigByModel(projectId, modelB.providerId, modelB.modelId)
     ]);
 
     // Build model info (two models)
@@ -193,18 +190,16 @@ export async function POST(request, { params }) {
     };
 
     // Create task
-    const newTask = await db.task.create({
-      data: {
-        projectId,
-        taskType: 'blind-test',
-        status: 0, // Running
-        modelInfo: JSON.stringify(modelInfo),
-        language,
-        detail: JSON.stringify(taskDetail),
-        totalCount: evalDatasetIds.length,
-        completedCount: 0,
-        note: ''
-      }
+    const newTask = await createTask({
+      projectId,
+      taskType: 'blind-test',
+      status: 0, // Running
+      modelInfo: JSON.stringify(modelInfo),
+      language,
+      detail: JSON.stringify(taskDetail),
+      totalCount: evalDatasetIds.length,
+      completedCount: 0,
+      note: ''
     });
 
     return NextResponse.json({

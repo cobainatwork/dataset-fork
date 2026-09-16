@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/db/index';
+import { findFirstTask, updateTask, deleteTaskById } from '@/lib/db/tasks';
+import { findEvalDatasets } from '@/lib/db/evalDatasets';
+import { findEvalResults, deleteEvalResultsByTaskId } from '@/lib/db/evalResults';
 
 /**
  * Get blind-test task details
@@ -9,7 +11,7 @@ export async function GET(request, { params }) {
   try {
     const { projectId, taskId } = params;
 
-    const task = await db.task.findFirst({
+    const task = await findFirstTask({
       where: {
         id: taskId,
         projectId,
@@ -32,7 +34,7 @@ export async function GET(request, { params }) {
 
     // Fetch all related evaluation questions
     const evalDatasetIds = detail.evalDatasetIds || [];
-    const evalDatasets = await db.evalDatasets.findMany({
+    const evalDatasets = await findEvalDatasets({
       where: {
         id: { in: evalDatasetIds }
       },
@@ -49,7 +51,7 @@ export async function GET(request, { params }) {
     const orderedDatasets = evalDatasetIds.map(id => evalDatasets.find(d => d.id === id)).filter(Boolean);
 
     // Fetch results from EvalResults table
-    const evalResults = await db.evalResults.findMany({
+    const evalResults = await findEvalResults({
       where: { taskId },
       orderBy: { createAt: 'asc' }
     });
@@ -105,7 +107,7 @@ export async function PUT(request, { params }) {
     const { projectId, taskId } = params;
     const { action } = await request.json();
 
-    const task = await db.task.findFirst({
+    const task = await findFirstTask({
       where: {
         id: taskId,
         projectId,
@@ -122,12 +124,9 @@ export async function PUT(request, { params }) {
         return NextResponse.json({ code: 400, error: 'Only running tasks can be interrupted' }, { status: 400 });
       }
 
-      const updatedTask = await db.task.update({
-        where: { id: taskId },
-        data: {
-          status: 3, // Interrupted
-          endTime: new Date()
-        }
+      const updatedTask = await updateTask(taskId, {
+        status: 3, // Interrupted
+        endTime: new Date()
       });
 
       return NextResponse.json({
@@ -154,7 +153,7 @@ export async function DELETE(request, { params }) {
   try {
     const { projectId, taskId } = params;
 
-    const task = await db.task.findFirst({
+    const task = await findFirstTask({
       where: {
         id: taskId,
         projectId,
@@ -167,14 +166,10 @@ export async function DELETE(request, { params }) {
     }
 
     // Delete related EvalResults first
-    await db.evalResults.deleteMany({
-      where: { taskId }
-    });
+    await deleteEvalResultsByTaskId(taskId);
 
     // Then delete the task
-    await db.task.delete({
-      where: { id: taskId }
-    });
+    await deleteTaskById(taskId);
 
     return NextResponse.json({
       code: 0,

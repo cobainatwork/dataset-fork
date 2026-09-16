@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import { getImages, deleteImage, getImageDetail } from '@/lib/db/images';
 import { getProjectPath } from '@/lib/db/base';
-import { db } from '@/lib/db/index';
+import { deleteImageDatasetsByImageId } from '@/lib/db/imageDatasets';
+import { deleteQuestionsByImageId } from '@/lib/db/questions';
 import { importImagesFromDirectories } from '@/lib/services/images';
 import fs from 'fs/promises';
 import path from 'path';
@@ -63,14 +64,10 @@ export async function DELETE(request, { params }) {
     }
 
     // 刪除關聯的資料集
-    await db.imageDatasets.deleteMany({
-      where: { imageId }
-    });
+    await deleteImageDatasetsByImageId(imageId);
 
-    // 刪除關聯的問題
-    await db.questions.deleteMany({
-      where: { imageId }
-    });
+    // 刪除關聯的問題（含 embedding purge / cluster cleanup 不變量）
+    await deleteQuestionsByImageId(imageId);
 
     // 刪除檔案
     const projectPath = await getProjectPath(projectId);

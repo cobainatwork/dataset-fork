@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/db/index';
+import { findFirstEvalDataset } from '@/lib/db/evalDatasets';
+import { findFirstTask } from '@/lib/db/tasks';
 import LLMClient from '@/lib/llm/core/index';
 import { getModelConfigById } from '@/lib/db/model-config';
 
@@ -10,7 +11,7 @@ export async function GET(request, { params }) {
   try {
     const { projectId, taskId } = params;
 
-    const task = await db.task.findFirst({
+    const task = await findFirstTask({
       where: {
         id: taskId,
         projectId,
@@ -52,7 +53,7 @@ export async function GET(request, { params }) {
 
     // Fetch current question
     const currentQuestionId = questionIds[currentIndex];
-    const currentQuestion = await db.evalDatasets.findUnique({
+    const currentQuestion = await findFirstEvalDataset({
       where: { id: currentQuestionId },
       select: {
         id: true,

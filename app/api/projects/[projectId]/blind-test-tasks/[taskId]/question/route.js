@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/db/index';
+import { findFirstEvalDataset } from '@/lib/db/evalDatasets';
+import { getTaskById } from '@/lib/db/tasks';
 
 /**
  * Get current question info (including random swap info)
@@ -13,9 +14,7 @@ export async function GET(request, { params }) {
     }
 
     // Fetch task
-    const task = await db.task.findUnique({
-      where: { id: taskId }
-    });
+    const task = await getTaskById(taskId);
 
     if (!task || task.taskType !== 'blind-test') {
       return NextResponse.json({ error: 'Task not found' }, { status: 404 });
@@ -38,7 +37,7 @@ export async function GET(request, { params }) {
 
     // Fetch current question
     const currentQuestionId = questionIds[currentIndex];
-    const currentQuestion = await db.evalDatasets.findUnique({
+    const currentQuestion = await findFirstEvalDataset({
       where: { id: currentQuestionId }
     });
 

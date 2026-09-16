@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/db';
+import { findUsageLogs } from '@/lib/db/usage-logs';
+import { getProjectsMeta } from '@/lib/db/projects';
 
 export const dynamic = 'force-dynamic';
 
@@ -37,7 +38,7 @@ export async function GET(request) {
       where.status = status;
     }
 
-    const logs = await db.llmUsageLogs.findMany({
+    const logs = await findUsageLogs({
       where,
       select: {
         inputTokens: true,
@@ -107,12 +108,9 @@ export async function GET(request) {
     const trend = Object.values(trendMap).sort((a, b) => a.name.localeCompare(b.name));
     const modelDistribution = Object.values(modelStats).sort((a, b) => b.value - a.value);
 
-    const projects = await db.projects.findMany({
-      select: { id: true, name: true },
-      orderBy: { createAt: 'desc' }
-    });
+    const projects = await getProjectsMeta();
 
-    const allLogs = await db.llmUsageLogs.findMany({
+    const allLogs = await findUsageLogs({
       select: { provider: true },
       distinct: ['provider']
     });
