@@ -45,13 +45,11 @@ describe('delUploadFileInfoById cleanup (docver)', () => {
     expect(remaining[0].n).toBe(0);
   });
 
-  it('cluster-maintenance removes a cluster whose only member was deleted', async () => {
+  it('delUploadFileInfoById converges the cluster of a deleted member', async () => {
     await seedFileWithDerived(ids);
     const { delUploadFileInfoById } = require('@/lib/db/upload-files');
     await delUploadFileInfoById(ids.fileId);
-    // 直接跑 maintenance handler（繞過非同步派發的時序）
-    const { processClusterMaintenanceTask } = require('@/lib/services/tasks/cluster-maintenance');
-    await processClusterMaintenanceTask({});
+    // purge 已同步收斂 cluster（size 1 → 剩 0 → 刪），不需再跑 maintenance
     const c = await prisma.questionCluster.findUnique({ where: { id: ids.clusterId } });
     expect(c).toBeNull();
   });
